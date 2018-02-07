@@ -273,14 +273,3 @@ void display_update() {
 		}
 	}
 }
-
-uint8_t screen[128*4] = {0};
-
-/*one pixel goes white*/
-void pixel(int x, int y) {
-    short offset = 0;
-    if (y > 0) 
-		offset = y / 8; 
-    screen[offset * 128 + x] |= 1 << (y - offset * 8);
-}
-
