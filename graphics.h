@@ -15,7 +15,5 @@ void display_init();
 void display_string();
 /*no clue*/
 void display_update();
-/*one pixel comes to life*/
-void pixel(int x, int y);
- 
+
 #endif
