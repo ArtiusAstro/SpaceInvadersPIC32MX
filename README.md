@@ -1,7 +1,7 @@
 # Space invaders on a Not Nintendo Switch. 
 By Ayub Atif and Wajd Tohme as part of KTH IS1200.
 
-Project abstract
+Project abstract:
 https://docs.google.com/document/d/1TF4ntXGd8Ek8SFzuzT3Ju0wxF4fn5X0Q7KfAnj81Rpo/edit
 
 This is an empty project template.
