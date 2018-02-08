@@ -1,0 +1,3 @@
+Analog : 1D
+C: fire
+Z: rare
