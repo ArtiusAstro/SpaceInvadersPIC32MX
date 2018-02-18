@@ -1,6 +1,6 @@
 #include <pic32mx.h>
 #include <stdint.h>
-#include "project.h"
+#include "switch.h"
 
 uint8_t pixels[512];
 
