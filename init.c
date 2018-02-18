@@ -87,7 +87,7 @@ void init_stuff() {
 }
 
 void init() {
-        init_other();
+        init_stuff();
         init_display();
         init_io();
 }
