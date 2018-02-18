@@ -4,7 +4,7 @@
 
    */
 
-#include "project.h"
+#include "switch.h"
 
 void init_io() {
 	TRISD |= 0xfe0;
