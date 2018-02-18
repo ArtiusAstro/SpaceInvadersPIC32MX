@@ -29,6 +29,7 @@
 #define RIGHT 4
 #define DOWN 8
 
+/*a pixel*/
 typedef struct {
         int xpos;
         int ypos;
