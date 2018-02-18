@@ -34,6 +34,8 @@ typedef struct {
         int ypos;
 } Point;
 
+void init();
+
 void set_pixel(int, int, int);
 
 uint8_t spi_send_recv(uint8_t);
