@@ -25,8 +25,8 @@ void display_update() {
 }
 
 void set_pixel(int x, int y, int on) {
-	x = mod(point->xpos, 128);
-	y = mod(point->ypos, 32);
+	x = mod(x, 128);
+	y = mod(y, 32);
 	int i = (y / 8) * 128 + x;
 
 	uint8_t k = 1 << (y % 8);
