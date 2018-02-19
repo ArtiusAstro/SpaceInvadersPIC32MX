@@ -4,8 +4,8 @@
 
    */
 
-#ifndef HEADER_FILE
-#define HEADER_FILE
+#ifndef SWITCH_H
+#define SWITCH_H
 
 #include <pic32mx.h>
 #include <stdint.h> 
