@@ -30,10 +30,7 @@ void move_point(Point *point) {
 	
 	
 	if(btns){
-	x = mod(point->xpos, 128);
-	y = mod(point->ypos, 32);
-	
-	set_pixel(x, y, 0);
+		set_pixel(x, y, 0);
 	}
 
 	/*UP to DOWN is defined in header*/
@@ -44,9 +41,6 @@ void move_point(Point *point) {
 			case DOWN: point->xpos--; break;
 			default:	;
 	}
-		
-	x = mod(point->xpos, 128);
-	y = mod(point->ypos, 32);
 
 	set_pixel(x, y, 1);
 }
