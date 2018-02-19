@@ -19,7 +19,7 @@ void init_io() {
 }
 
 void init_display() {
-	// Taken from hello-display
+	// hello-display
 
 	DISPLAY_COMMAND_DATA_PORT &= ~DISPLAY_COMMAND_DATA_MASK;
 	delay(10);
