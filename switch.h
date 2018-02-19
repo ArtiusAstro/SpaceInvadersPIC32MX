@@ -29,26 +29,26 @@
 #define RIGHT 4
 #define DOWN 8
 
-/*a pixel*/
 typedef struct {
-        int xpos;
-        int ypos;
+        int xpos, ypos;
 } Point;
 
 void init();
 
-void set_pixel(int, int, int);
+int mod(int, int);
 
 uint8_t spi_send_recv(uint8_t);
 
 void display_update();
 
-void set_disp_data();
-
 void clear_disp();
+
+void set_pixel(int, int, int);
 
 void move_point(Point*);
 
-int mod(int, int);
+void move(Point *thing);
 
-#endif
+void init_ship(int x_origin, int y_origin);
+
+//#endif
