@@ -22,26 +22,7 @@ void delay(int cyc){
 
 /*#############################*/
 
-void init_ship(int x_origin, int y_origin){
-	int i, j, count; /*i is y, j is x*/
-	count=0;
-	
-	for(i=0; i<4; i++){
-		for(j=0; j<4; j++){
-			ship[count].xpos = 60 + j;
-			ship[count].ypos = 8 + i;
-			count++;
-		}
-	}
-}
 
-void move(Point *thing){
-	int i;
-	
-	int len = sizeof(thing)/sizeof(thing[0])
-	for(i=0; i<len; i++)
-			move_point(&(thing[i]));
-}
 
 /*#############################*/
 
@@ -79,4 +60,3 @@ int main(void) {
 	for(;;) ;
 	return 0;
 }
-
