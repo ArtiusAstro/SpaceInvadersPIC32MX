@@ -6,10 +6,6 @@
 
 #include "switch.h"
 
-void init_io() {
-	TRISD |= 0xfe0;
-}
-
 void set_disp_cmd() {
 	DISPLAY_COMMAND_DATA_PORT &= ~DISPLAY_COMMAND_DATA_MASK;
 }
@@ -18,8 +14,12 @@ void set_disp_data() {
 	DISPLAY_COMMAND_DATA_PORT |= DISPLAY_COMMAND_DATA_MASK;
 }
 
+void init_io() {
+	TRISD |= 0xfe0;
+}
+
 void init_display() {
-	/*default*/
+	// Taken from hello-display
 
 	DISPLAY_COMMAND_DATA_PORT &= ~DISPLAY_COMMAND_DATA_MASK;
 	delay(10);
@@ -48,9 +48,15 @@ void init_display() {
 	spi_send_recv(0x20);
 
 	spi_send_recv(0xAF);
+
+	/*Set page addressing mode to horizontal*/
+	set_disp_cmd();
+	spi_send_recv(0x20);
+	spi_send_recv(0x00);
+	set_disp_data();
 }
 
-void init_stuff() {
+void init_other() {
 	/* Set up peripheral bus clock */
 	OSCCON &= ~0x180000;
 	OSCCON |= 0x080000;
@@ -80,14 +86,14 @@ void init_stuff() {
 	/* Clear SPIROV*/
 	SPI2STATCLR &= ~0x40;
 	/* Set CKP = 1, MSTEN = 1; */
-        SPI2CON |= 0x60;
+    SPI2CON |= 0x60;
 
 	/* Turn on SPI */
 	SPI2CONSET = 0x8000;
 }
 
 void init() {
-        init_stuff();
+        init_other();
         init_display();
         init_io();
 }
