@@ -1,7 +1,6 @@
-/* graphics.h
+/* switch.h
    
    This file written 2018-02-06 by Ayub Atif 
-
    */
 
 #ifndef SWITCH_H
@@ -24,16 +23,40 @@
 #define DISPLAY_RESET_PORT PORTG
 #define DISPLAY_RESET_MASK 0x200
 
+/*####################################################################*/
+
 #define UP 1
 #define LEFT 2
 #define RIGHT 4
 #define DOWN 8
 
+/*####################################################################*/
+
+#define SHIP 0
+#define BARRIER_1 1
+#define BARRIER_2 2
+#define ALIEN_1 3
+#define ALIEN_2 4
+#define ALIEN_3 5
+#define ALIEN_4 6
+#define RARE_ALIEN 7
+
+#define SHIP_SIZE 16
+#define ALIEN_SIZE 12
+#define RARE_SIZE 9
+#define BARRIER_SIZE 8
+
+/*####################################################################*/
+
 typedef struct {
-        int xpos, ypos;
+        int xpos, ypos, id;
 } Point;
 
+/*####################################################################*/
+
 void init();
+
+/*####################################################################*/
 
 int mod(int, int);
 
@@ -43,12 +66,32 @@ void display_update();
 
 void clear_disp();
 
-void set_pixel(int, int, int);
+void set_pixel(int x, int y, int on);
 
-void move_point(Point*);
+int get_pixel(int x, int y);
+
+/*####################################################################*/
+
+void pointLight(Point point, int on);
+
+void move_point(Point *point, int ai);
+
+/*####################################################################*/
 
 void move(Point *thing);
 
-void init_ship(int x_origin, int y_origin);
+void persist(Point *thing, int len);
 
-//#endif
+void fire(Point *boi);
+
+void init_ship(Point *ship, int x_origin, int y_origin);
+
+void init_barriers(Point *barrier_1, Point *barrier_2, int x_origin);
+
+void init_alien(Point* alien, int x_origin, int y_origin);
+
+void rare_spawn(Point *ship);
+
+/*####################################################################*/
+
+#endif
