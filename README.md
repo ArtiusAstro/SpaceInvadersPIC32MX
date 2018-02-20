@@ -4,9 +4,7 @@ By Ayub Atif and Wajd Tohme as part of KTH IS1200.
 Project abstract:
 https://docs.google.com/document/d/1TF4ntXGd8Ek8SFzuzT3Ju0wxF4fn5X0Q7KfAnj81Rpo/edit
 
-This is an empty project template.
-Just add your own code to the existing C or assembly files.
-Any added C or assembly files will automatically be built,
+Any C or assembly files will automatically be built,
 no need to edit the Makefile.
 
 main.c:
