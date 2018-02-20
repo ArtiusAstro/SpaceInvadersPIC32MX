@@ -39,18 +39,18 @@ void move_point(Point *point, int ai) {
 	if(ai)
 		btns = ai; /*if automated, go somewhere*/
 	
-	if(btns){
+	if(btns)
 		pointLight(*point, 0);
 
-		/*UP to DOWN is defined in header*/
-		switch (btns) {
-				case UP: point->xpos++; break;
-				case LEFT: point->ypos--; break;
-				case RIGHT: point->ypos++; break;
-				case DOWN: point->xpos--; break;
-				default:	;
-		}
-			
-		pointLight(*point, 1);
+	/*UP to DOWN is defined in header*/
+	switch (btns) {
+		case UP: point->xpos++; break;
+		case LEFT: point->ypos--; break;
+		case RIGHT: point->ypos++; break;
+		case DOWN: point->xpos--; break;
+		default:	;
 	}
+			
+	pointLight(*point, 1);
+	
 }
