@@ -1,9 +1,8 @@
 /* init.c
    
    This file written 2018-02-06 by Ayub Atif 
-
    */
-
+   
 #include "switch.h"
 
 void set_disp_cmd() {
@@ -15,11 +14,15 @@ void set_disp_data() {
 }
 
 void init_io() {
-	TRISD |= 0xfe0;
+	/* buttons */
+	TRISDSET = 0xe0;
+	
+	/* led */
+	TRISECLR = 0xff;
 }
 
 void init_display() {
-	// hello-display
+	/* hello-display */
 
 	DISPLAY_COMMAND_DATA_PORT &= ~DISPLAY_COMMAND_DATA_MASK;
 	delay(10);
@@ -49,10 +52,11 @@ void init_display() {
 
 	spi_send_recv(0xAF);
 
-	/*Set page addressing mode to horizontal*/
+	/* set memory addressing mode*/
+	/* consider using page addressing mode: set lower bits to 10*/
 	set_disp_cmd();
-	spi_send_recv(0x20);
-	spi_send_recv(0x00);
+	spi_send_recv(0x20); /*set memory addressing mode*/
+	spi_send_recv(0x10); /*page addressing mode*/
 	set_disp_data();
 }
 
