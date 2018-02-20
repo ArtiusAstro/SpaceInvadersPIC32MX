@@ -1,3 +1,8 @@
+/* point.c
+   
+   This file written 2018-02-14 by Ayub Atif 
+   */
+
 #include "switch.h"
 #include <pic32mx.h>
 #include <stdint.h>
@@ -22,25 +27,30 @@ int mod(int n, int N) {
 	return (r < 0) ? (r + N) : r;
 }
 
-void move_point(Point *point) {
-    int btns = getbtns();
-
-	int x;
-	int y;
+void pointLight(Point point, int on){
 	
+	set_pixel(point.xpos, point.ypos, on);
+	
+}
+
+void move_point(Point *point, int ai) {
+	int btns = getbtns();
+
+	if(ai)
+		btns = ai; /*if automated, go somewhere*/
 	
 	if(btns){
-		set_pixel(x, y, 0);
-	}
+		pointLight(*point, 0);
 
-	/*UP to DOWN is defined in header*/
-	switch (btns) {
-			case UP: point->xpos++; break;
-			case LEFT: point->ypos--; break;
-			case RIGHT: point->ypos++; break;
-			case DOWN: point->xpos--; break;
-			default:	;
+		/*UP to DOWN is defined in header*/
+		switch (btns) {
+				case UP: point->xpos++; break;
+				case LEFT: point->ypos--; break;
+				case RIGHT: point->ypos++; break;
+				case DOWN: point->xpos--; break;
+				default:	;
+		}
+			
+		pointLight(*point, 1);
 	}
-
-	set_pixel(x, y, 1);
 }
