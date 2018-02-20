@@ -22,7 +22,7 @@ Point.c
 	Contains the behaviour of a point in a (128,32) system
 	
 assets.c
-	Contains drawing functions for each asset, as well as the move function
+	Contains drawing functions for each asset
 
 init.c
 	Contains init for various components
