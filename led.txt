@@ -1,7 +1,7 @@
 	/*
-	---------------------------------------------
-	cycles through LEDs for rare enemy spawn
-	---------------------------------------------
+	----------------------------------------------------------------------
+	changes LED speed with potentiometer, can be used for slider function?
+	----------------------------------------------------------------------
 	unsigned int speed;
 	unsigned int sweep = 0x1;
 	
