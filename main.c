@@ -53,9 +53,11 @@ int main(void) {
 	/*#############################*/
 	
 	//lights off a specific entity
+	/*
 	int i;
 	for(i=0; i<16; i++)
 			pointLight(shipy[i], 0);
+	*/
 	
 	/*#############################*/
 	
