@@ -13,19 +13,21 @@ void move(Point *thing){
 	int i, len, ai; /*AI left=2 right=4*/
 	
 	switch(thing[0].id){
-		case 0: 
+		case SHIP: 
 			ai=0;
 			len=SHIP_SIZE; break;
-		case 3:
+			
+		case ALIEN_1:
+		case ALIEN_3:
+		case ALIEN_4:
 			ai=2;
 			len=ALIEN_SIZE; break;
-		case 4:
+			
+		case ALIEN_2:
 			ai=4;
 			len=ALIEN_SIZE; break;
-		case 5: 
-			ai=2;
-			len=ALIEN_SIZE; break;
-		case 6:
+			
+		case RARE_ALIEN:
 			ai=2;
 			len=RARE_SIZE; break;
 		default: ;
@@ -138,6 +140,10 @@ void init_alien(Point *alien, int x_origin, int y_origin){
 			case 3: 
 				for(i=0; i<len; i++)
 					alien[i].id = ALIEN_3; 
+				break;
+			case 4:
+				for(i=0; i<len; i++)
+					alien[i].id = ALIEN_4; 
 				break;
 			default:	;
 		}
