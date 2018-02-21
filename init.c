@@ -21,6 +21,13 @@ void init_io() {
 	TRISECLR = 0xff;
 }
 
+int getbtns() {
+	int btns234 = (PORTD >> 4) & 0xe;
+	int btn1 = (PORTF >> 1) & 0x1;
+	int read = btns234 + btn1;
+	return read;
+}
+
 void init_display() {
 	/* hello-display */
 
@@ -90,7 +97,7 @@ void init_other() {
 	/* Clear SPIROV*/
 	SPI2STATCLR &= ~0x40;
 	/* Set CKP = 1, MSTEN = 1; */
-    	SPI2CON |= 0x60;
+    SPI2CON |= 0x60;
 
 	/* Turn on SPI */
 	SPI2CONSET = 0x8000;
