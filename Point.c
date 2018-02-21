@@ -7,13 +7,6 @@
 #include <pic32mx.h>
 #include <stdint.h>
 
-int getbtns() {
-	int btns234 = (PORTD >> 4) & 0xe;
-	int btn1 = (PORTF >> 1) & 0x1;
-	int read = btns234 + btn1;
-	return read;
-}
-
 void spooky() {
         int i;
         for (i = 0; i < 32; i++) {
@@ -22,15 +15,17 @@ void spooky() {
         display_update();
 }
 
-int mod(int n, int N) {
+int mod_loop(int n, int N) {
 	int r = n % N;
 	return (r < 0) ? (r + N) : r;
 }
 
-void pointLight(Point point, int on){
-	
-	set_pixel(point.xpos, point.ypos, on);
-	
+int kill(Point *point){
+	return (point->ypos<0 || point->ypos>31 || point->xpos<0 || point->xpos>127) ? 1 : 0;
+}
+
+void pointLight(Point *point){
+	set_pixel(point->xpos, point->ypos, point->on);
 }
 
 void move_point(Point *point, int ai) {
@@ -38,19 +33,25 @@ void move_point(Point *point, int ai) {
 
 	if(ai)
 		btns = ai; /*if automated, go somewhere*/
-	
-	if(btns)
-		pointLight(*point, 0);
 
 	/*UP to DOWN is defined in header*/
 	switch (btns) {
-		case UP: point->xpos++; break;
-		case LEFT: point->ypos--; break;
-		case RIGHT: point->ypos++; break;
-		case DOWN: point->xpos--; break;
+		//case UP: (point->xpos++); break;
+		case LEFT: (point->ypos--); break;
+		case RIGHT: (point->ypos++); break;
+		//case DOWN: (point->xpos--); break;
 		default:	;
 	}
-			
-	pointLight(*point, 1);
 	
+	if(kill(point)){
+		switch (point->id){
+			case RARE_ALIEN: //point->on=0; break;
+			default:
+				//point->xpos=mod_loop(point->xpos, 128); not needed rn, probs 4 bullet
+				point->ypos=mod_loop(point->ypos, 32);
+			}
+	}
 }
+
+
+
