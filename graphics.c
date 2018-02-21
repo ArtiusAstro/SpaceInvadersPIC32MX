@@ -25,9 +25,16 @@ void display_update() {
 	}
 }
 
+/*void invert(){
+	int i;
+	for(i = 0; i < 512; i++) {
+		spi_send_recv(~pixels[i]);
+	}
+	
+	display_update();
+}*/
+
 void set_pixel(int x, int y, int on) {
-	x = mod(x, 128);
-	y = mod(y, 32);
 	
 	int i = (y / 8) * 128 + x;
 
@@ -41,8 +48,6 @@ void set_pixel(int x, int y, int on) {
 }
 
 int get_pixel(int x, int y) {
-        x = mod(x, 128);
-        y = mod(y, 32);
         int i = (y / 8) * 128 + x;
         return (pixels[i] >> (y % 8)) & 0x1;
 }
