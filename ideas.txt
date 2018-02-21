@@ -1,3 +1,6 @@
-Analog : 1D
-C: fire
-Z: rare
+Nunchuck: 
+  Analog : 1D
+  C: fire
+  Z: rare
+  
+Final boss: one chance to shoot alien, using ship as bullet
