@@ -99,7 +99,7 @@ void update(){
 
 int main(void) {
 	init();
-	*lights=0x01;
+	*lights=0x00;
 	clear_disp();
 
 	start();
@@ -122,11 +122,11 @@ int main(void) {
 		
 		if(cLED++>60){
 			//LED++
-			*lights += (1<<cRARE);
+			*lights += 1<<cRARE;
 			if(cRARE++>7 && !rare_trigger){ // after this graphics stop glitch idk
 				rare_spawn(rare_alien); //rare_alien grants power up on boom
-				rare_trigger++;
-				*lights=0x01;
+				//rare_trigger++; //dont spawn another rare until it ded
+				*lights=0x00;
 				
 				/*if(cDOWN++>1){
 					descend(world, idiots); //DANGER
