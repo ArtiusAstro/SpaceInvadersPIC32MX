@@ -25,40 +25,49 @@
 
 /*####################################################################*/
 
-#define UP 1
-#define LEFT 2
-#define RIGHT 4
-#define DOWN 8
+#define UP 1 
+#define LEFT 2 //standard
+#define RIGHT 4 //standard
+#define DOWN 8 //wave descends
 
 /*####################################################################*/
 
 #define SHIP 0
 #define BARRIER_1 1
 #define BARRIER_2 2
-#define ALIEN_1 3
-#define ALIEN_2 4
-#define ALIEN_3 5
-#define ALIEN_4 6
-#define RARE_ALIEN 7
+#define RARE_ALIEN 3
+#define ALIEN_1 4
+#define ALIEN_2 5
+#define ALIEN_3 6
+#define ALIEN_4 7
+#define ALIEN_5 8
+#define ALIEN_6 9
+#define ALIEN_7 10
+#define ALIEN_8 11
+#define ALIEN_9 12
 
 #define SHIP_SIZE 16
 #define ALIEN_SIZE 12
 #define RARE_SIZE 9
-#define BARRIER_SIZE 8
+#define BARRIER_SIZE 14
 
 /*####################################################################*/
 
 typedef struct {
-        int xpos, ypos, id;
+        int xpos, ypos, id, on;
 } Point;
 
 /*####################################################################*/
+
+int getbtns();
 
 void init();
 
 /*####################################################################*/
 
-int mod(int, int);
+int mod_loop(int, int);
+
+int kill(Point *point);
 
 uint8_t spi_send_recv(uint8_t);
 
@@ -72,7 +81,7 @@ int get_pixel(int x, int y);
 
 /*####################################################################*/
 
-void pointLight(Point point, int on);
+void pointLight(Point *point);
 
 void move_point(Point *point, int ai);
 
@@ -80,7 +89,7 @@ void move_point(Point *point, int ai);
 
 void move(Point *thing);
 
-void persist(Point *thing, int len);
+void descend(Point** world, Point** idiots);
 
 void fire(Point *boi);
 
