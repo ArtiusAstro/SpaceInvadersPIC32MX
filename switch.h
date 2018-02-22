@@ -45,6 +45,8 @@
 #define ALIEN_7 10
 #define ALIEN_8 11
 #define ALIEN_9 12
+#define SHIP_BULLET 13
+#define ALIEN_BULLET 14
 
 #define SHIP_SIZE 16
 #define ALIEN_SIZE 12
@@ -67,8 +69,6 @@ void init();
 
 int mod_loop(int, int);
 
-int kill(Point *point);
-
 uint8_t spi_send_recv(uint8_t);
 
 void display_update();
@@ -81,9 +81,15 @@ int get_pixel(int x, int y);
 
 /*####################################################################*/
 
-void pointLight(Point *point);
+int kill(Point point);
+
+void pointLight(Point point);
 
 void move_point(Point *point, int ai);
+
+void they_got_shot(Point ship_bullet1, Point ship_bullet2, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9);
+
+void you_got_shot(Point *shipbul12_alienbul1_3, Point *alienbul4_9, Point **ship_barrier12, int *lives);
 
 /*####################################################################*/
 
@@ -91,7 +97,7 @@ void move(Point *thing);
 
 void descend(Point** world, Point** idiots);
 
-void fire(Point *boi);
+void ship_fire(Point *boi, Point* thing);
 
 void init_ship(Point *ship, int x_origin, int y_origin);
 
