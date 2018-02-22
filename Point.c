@@ -36,7 +36,7 @@ void move_point(Point *point, int ai) {
 		if(ai)
 			btns = ai; /*if automated, go somewhere*/
 
-		/*UP to DOWN is defined in header*/
+		/*UP to DOWN defined in header*/
 		switch (btns) {
 			case UP: if(point->id==SHIP_BULLET) 
 						point->xpos++; 
