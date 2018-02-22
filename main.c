@@ -38,7 +38,7 @@ Point alien9_bullet;
 Point* world[7] = {shipy, barrier_1, barrier_2, rare_alien, alien_1, alien_2, alien_3};
 Point* idiots[6] = {alien_4, alien_5, alien_6, alien_7, alien_8, alien_9};
 Point bullets[5]; //0 and 1 are ship, rest alien
-Point idiot_bullets[6]; //all alien
+Point idiot_bullets[6]; //only alienz
 
 int game;
 
