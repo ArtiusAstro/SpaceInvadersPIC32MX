@@ -38,7 +38,7 @@ Point alien9_bullet;
 Point* world[7] = {shipy, barrier_1, barrier_2, rare_alien, alien_1, alien_2, alien_3};
 Point* idiots[6] = {alien_4, alien_5, alien_6, alien_7, alien_8, alien_9};
 Point bullets[5]; //0 and 1 are ship, rest alien
-Point idiot_bullets[6]; //all alien
+Point idiot_bullets[6]; //only alienz
 
 int game;
 
@@ -79,52 +79,31 @@ void start(){
 	rare_spawn(rare_alien);
 }
 
-void update(){
+void r_u_ded(){ /*if an alien is shot, all its pixels are ded*/
 	int i, j, len, ded;
-	
-	clear_disp();
-	
-	for(i=0; i<7; i++){
+	for(i=3; i<7; i++){
 		switch(world[i][0].id){
-			case SHIP: 
-				len=SHIP_SIZE; 
-				for(j=0; j<len; j++)
-					pointLight(world[i][j]);
-				break;
-			case BARRIER_1:
-			case BARRIER_2:
-				len=BARRIER_SIZE;
-				for(j=0; j<len; j++)
-					if(world[i][j].on)
-						pointLight(world[i][j]);
-				break;
 			case ALIEN_1:
 			case ALIEN_2:
 			case ALIEN_3:
 				len=ALIEN_SIZE;
-				ded=0;
-				for(j=0; j<len; j++)
-					if(!world[i][j].on){
-						ded++;
-						break;
-					}
-				if(!ded)	
-					for(j=0; j<len; j++)
-						pointLight(world[i][j]);
 				break;
 			case RARE_ALIEN:
 				len=RARE_SIZE;
-				ded=0;
-				for(j=0; j<len; j++)
-					if(!world[i][j].on){
-						ded++;
-						break;
-					}
-				if(!ded)	
-					for(j=0; j<len; j++)
-						pointLight(world[i][j]);
 				break;
 			default: ;
+		}
+		ded=0;
+		for(j=0; j<len; j++){
+			if(!world[i][0].on){
+				ded=1;
+				break;
+			}
+		}
+		if(ded){
+			for(j=0; j<len; j++)
+				world[i][0].on=0;
+			ded=0;
 		}
 	}
 	
@@ -132,13 +111,48 @@ void update(){
 		ded=0;
 		for(j=0; j<ALIEN_SIZE; j++)
 			if(!idiots[i][j].on){
-				ded++;
+				ded=1;
 				break;
 			}
-		if(!ded)
+		if(ded)
 			for(j=0; j<ALIEN_SIZE; j++)
-				pointLight(idiots[i][j]);
-			
+				idiots[i][j].on=0;
+	}
+	
+}
+
+void update(){
+	int i, j, len;
+	clear_disp();
+	
+	r_u_ded();
+	
+	for(i=0; i<7; i++){
+		switch(world[i][0].id){
+			case SHIP: 
+				len=SHIP_SIZE; 
+				break;
+			case BARRIER_1:
+			case BARRIER_2:
+				len=BARRIER_SIZE;
+				break;
+			case ALIEN_1:
+			case ALIEN_2:
+			case ALIEN_3:
+				len=ALIEN_SIZE;
+				break;
+			case RARE_ALIEN:
+				len=RARE_SIZE;
+				break;
+			default: ;
+		}
+		for(j=0; j<len; j++)
+				pointLight(world[i][j]);
+	}
+	
+	for(i=0; i<6; i++){
+		for(j=0; j<ALIEN_SIZE; j++)
+			pointLight(idiots[i][j]);
 	}
 		
 	if(ship_bullet1.on)
@@ -153,8 +167,12 @@ int main(void){
 
 	start();
 	
-	int i,c0,c1,c2,c3,cLED,cRARE,cDOWN,rare_trigger,bullet_count;
-	c0=c1=c2=c3=cLED=cRARE=cDOWN=rare_trigger=bullet_count=0;
+	int i,c0,c1,c2,c3,cLED,cRARE,cDOWN, downtime, bullet_count, highscore;
+	c0=c1=c2=c3=cLED=cRARE=cDOWN=bullet_count=0;
+	
+	highscore=0; /*highscore is used in they_got_shot(), a +1 for each is fine, with a +3 for the rare or smth*/
+	downtime=0; /*checks how many times the wave descended*/
+	
 	game = 1;
 	while(game){
 		
@@ -168,23 +186,24 @@ int main(void){
 		if(!ship_bullet1.on)
 			bullet_count=0;
 		
-		if(!rare_alien[0].on) /*check if rare shot down*/
-			rare_trigger++;
-		
-		if(cLED++>120){
+		if(cLED++>70){
 			//LED++
 			*lights += 1<<cRARE;
 			if(cRARE++>7){ 
-				if(rare_trigger)
-					rare_spawn(rare_alien); //rare_alien grants power up on boom // after this graphics stop glitch idk
-					rare_trigger=0;
+				//if(!rare_alien[0].on)
+					rare_spawn(rare_alien); //rare_alien grants power up on boom
 					
 				*lights=0x00;
 				
-				/*if(cDOWN++>1){
-					descend(alien_1, alien_2, alien_3, alien_4, alien_5, alien_6, alien_7, alien_8, alien_9); //DANGER
+				if(cDOWN++>0){
+					if(downtime<MAX_DOWN+1)
+						descend(world, idiots); //DANGER
+					downtime++;	
+					if(downtime==MAX_DOWN);
+						/*GAME OVER*/
+					
 					cDOWN=0;
-				}*/
+				}
 				cRARE=0;
 			}
 			cLED=0;
@@ -220,13 +239,13 @@ int main(void){
 		
 		/*#############################*/
 		
-		they_got_shot(ship_bullet1, ship_bullet2, world, idiots);
+		they_got_shot(ship_bullet1, ship_bullet2, world, idiots, &highscore);
 		//you_got_shot(bullets, idiot_bullets, world)
 	
 		/*#############################*/
 		
 		update();
-		delay(10);
+		delay(10000);
 	}
 	
 	for(;;) ;

@@ -30,6 +30,9 @@
 #define RIGHT 4 //standard
 #define DOWN 8 //wave descends
 
+#define MAX_DOWN 6 //if wave descends this # of times game over
+//when you commit this summarize what the functions general purpose or theme is
+
 /*####################################################################*/
 
 #define SHIP 0
@@ -87,7 +90,7 @@ void pointLight(Point point);
 
 void move_point(Point *point, int ai);
 
-void they_got_shot(Point ship_bullet1, Point ship_bullet2, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9);
+void they_got_shot(Point ship_bullet1, Point ship_bullet2, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9, int *highscore);
 
 void you_got_shot(Point *shipbul12_alienbul1_3, Point *alienbul4_9, Point **ship_barrier12, int *lives);
 
