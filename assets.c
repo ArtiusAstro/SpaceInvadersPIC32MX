@@ -53,7 +53,7 @@ void move(Point *thing){
 			move_point(&thing[i], ai);
 }
 
-void descend(Point** world, Point** idiots){ //broken
+void descend(Point** world, Point** idiots){ //be careful with the arrays here
 	int i, j;
 	
 	for(i=4; i<7; i++){
