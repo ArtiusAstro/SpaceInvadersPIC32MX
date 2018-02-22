@@ -31,16 +31,22 @@ void move(Point *thing){
 		case ALIEN_9:
 			ai=2;
 			len=ALIEN_SIZE; break;
+		case RARE_ALIEN:
+			ai=2;
+			len=RARE_SIZE; break;
 			
 		case ALIEN_4:
 		case ALIEN_5:
 		case ALIEN_6:
 			ai=4;
 			len=ALIEN_SIZE; break;
+		
+		case SHIP_BULLET:
+			ai=1;
+			break;
 			
-		case RARE_ALIEN:
-			ai=2;
-			len=RARE_SIZE; break;
+		case ALIEN_BULLET:
+			ai=8;
 		default: ;
 	}
 	
@@ -48,7 +54,7 @@ void move(Point *thing){
 			move_point(&thing[i], ai);
 }
 
-void descend(Point** world, Point** idiots){
+void descend(Point** world, Point** idiots){ //broken
 	if(downtime<0)
 		return;
 	
@@ -69,10 +75,12 @@ void descend(Point** world, Point** idiots){
 	}
 }
 
-void fire(Point *boi){
-	
+void ship_fire(Point *bullet, Point* thing){
 	/*banzaiiiiii*/
-	
+	bullet->id=SHIP_BULLET;
+	bullet->xpos=6;
+	bullet->ypos=thing[9].ypos;
+	bullet->on=1;
 }
 
 void init_ship(Point *ship, int x_origin, int y_origin){
@@ -104,7 +112,7 @@ void init_barriers(Point *barrier_1, Point *barrier_2, int x_origin){
 			len++;
 		}
 	}
-
+	
 	len=0;
 	
 	for(i=0; i<7; i++){
