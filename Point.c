@@ -66,7 +66,7 @@ void move_point(Point *point, int ai) {
 	}
 }
 
-void they_got_shot(Point ship_bullet1, Point ship_bullet2, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9)
+void they_got_shot(Point ship_bullet1, Point ship_bullet2, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9, int *highscore)
 {
 	int i, j, len, boom1, boom2;
 	boom1=boom2=0;
