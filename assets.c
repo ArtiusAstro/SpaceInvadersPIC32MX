@@ -8,7 +8,6 @@
 #include <stdint.h>
 
 int alien_count=0;
-int downtime=3;
 
 void move(Point *thing){
 	int i, len, ai; /*AI left=2 right=4*/
@@ -55,23 +54,16 @@ void move(Point *thing){
 }
 
 void descend(Point** world, Point** idiots){ //broken
-	if(downtime<0)
-		return;
-	
-	downtime--;
 	int i, j;
 	
-	for(i=0; i<3; i++){
-		for(j=0; j<ALIEN_SIZE; j++){
-			idiots[i][j].xpos+=-10;
-		}
+	for(i=4; i<7; i++){
+		for(j=0; j<ALIEN_SIZE; j++)
+			world[i][j].xpos+=-10;
 	}
 
-	for(i=3; i<6; i++){
-		for(j=0; j<ALIEN_SIZE; j++){
+	for(i=0; i<6; i++){
+		for(j=0; j<ALIEN_SIZE; j++)
 			idiots[i][j].xpos+=-10;
-			world[i][j].xpos+=-10;
-		}
 	}
 }
 
