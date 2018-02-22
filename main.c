@@ -147,7 +147,7 @@ void update(){
 			default: ;
 		}
 		for(j=0; j<len; j++)
-				pointLight(idiots[i][j]);
+				pointLight(world[i][j]);
 	}
 	
 	for(i=0; i<6; i++){
