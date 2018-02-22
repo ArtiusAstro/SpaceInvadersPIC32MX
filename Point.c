@@ -56,9 +56,8 @@ void move_point(Point *point, int ai) {
 					point->on=0;
 					point->xpos=mod_loop(point->xpos, 128); 
 					break;
-				case RARE_ALIEN: //point->on=0;
+				case RARE_ALIEN: point->on=0;
 				default:
-					//point->xpos=mod_loop(point->xpos, 128); not needed rn, probs 4 bullet
 					point->ypos=mod_loop(point->ypos, 32);
 				}
 		}
@@ -159,7 +158,7 @@ void you_got_shot(Point *shipbul12_alienbul1_3, Point *alienbul4_9, Point **ship
 					if(ship_barrier12[i][j].xpos==shipbul12_alienbul1_3[k].xpos && ship_barrier12[i][j].ypos==shipbul12_alienbul1_3[k].ypos){
 						shipbul12_alienbul1_3[k].on=0;
 						if(ship_barrier12[i][0].id==SHIP)
-							*lives--;
+							*lives = *lives - 1;
 						else
 							ship_barrier12[i][j].on=0;
 						break;
@@ -171,7 +170,7 @@ void you_got_shot(Point *shipbul12_alienbul1_3, Point *alienbul4_9, Point **ship
 					if(ship_barrier12[i][j].xpos==alienbul4_9[k].xpos && ship_barrier12[i][j].ypos==alienbul4_9[k].ypos){
 						alienbul4_9[k].on=0;
 						if(ship_barrier12[i][0].id==SHIP)
-							*lives--;
+							*lives = *lives - 1;
 						else
 							ship_barrier12[i][j].on=0;
 						break;
@@ -179,47 +178,5 @@ void you_got_shot(Point *shipbul12_alienbul1_3, Point *alienbul4_9, Point **ship
 				}
 			}
 		}
-
+	}	
 }
-		
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
-
-
-
