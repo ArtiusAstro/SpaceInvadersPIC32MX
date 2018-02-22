@@ -31,6 +31,7 @@
 #define DOWN 8 //wave descends
 
 #define MAX_DOWN 6 //if wave descends this # of times game over
+//when you commit this summarize what the functions general purpose or theme is
 
 /*####################################################################*/
 
