@@ -38,7 +38,7 @@ Point alien9_bullet;
 Point* world[7] = {shipy, barrier_1, barrier_2, rare_alien, alien_1, alien_2, alien_3};
 Point* idiots[6] = {alien_4, alien_5, alien_6, alien_7, alien_8, alien_9};
 Point bullets[5]; //0 and 1 are ship, rest alien
-Point idiot_bullets[6]; //only alienz
+Point idiot_bullets[6]; //all alien
 
 int game;
 
@@ -95,15 +95,13 @@ void r_u_ded(){ /*if an alien is shot, all its pixels are ded*/
 		}
 		ded=0;
 		for(j=0; j<len; j++){
-			if(!world[i][0].on){
+			if(!world[i][j].on){
 				ded=1;
-				break;
 			}
 		}
 		if(ded){
 			for(j=0; j<len; j++)
-				world[i][0].on=0;
-			ded=0;
+				world[i][j].on=0;
 		}
 	}
 	
@@ -112,7 +110,6 @@ void r_u_ded(){ /*if an alien is shot, all its pixels are ded*/
 		for(j=0; j<ALIEN_SIZE; j++)
 			if(!idiots[i][j].on){
 				ded=1;
-				break;
 			}
 		if(ded)
 			for(j=0; j<ALIEN_SIZE; j++)
@@ -156,7 +153,15 @@ void update(){
 	}
 		
 	if(ship_bullet1.on)
-		pointLight(ship_bullet1);	
+		pointLight(ship_bullet1);
+	
+	for(i=2; i<5; i++)
+		//if(bullets[i].on)
+			pointLight(bullets[i]);
+
+	for(i=0; i<6; i++)
+		//if(idiot_bullets[i].on)
+			pointLight(idiot_bullets[i]);
 	
 	display_update();
 }
@@ -167,11 +172,12 @@ int main(void){
 
 	start();
 	
-	int i,c0,c1,c2,c3,cLED,cRARE,cDOWN, downtime, bullet_count, highscore;
-	c0=c1=c2=c3=cLED=cRARE=cDOWN=bullet_count=0;
+	int i,c0,c1,c2,c3,cLED,cRARE,cDOWN, c1shot, c2shot, c3shot, downtime, bullet_count, highscore, lives;
+	c0=c1=c2=c3=cLED=cRARE=cDOWN=bullet_count=c1shot=c2shot=c3shot=0;
 	
 	highscore=0; /*highscore is used in they_got_shot(), a +1 for each is fine, with a +3 for the rare or smth*/
 	downtime=0; /*checks how many times the wave descended*/
+	lives=0;
 	
 	game = 1;
 	while(game){
@@ -186,7 +192,7 @@ int main(void){
 		if(!ship_bullet1.on)
 			bullet_count=0;
 		
-		if(cLED++>70){
+		if(cLED++>35){
 			//LED++
 			*lights += 1<<cRARE;
 			if(cRARE++>7){ 
@@ -212,6 +218,13 @@ int main(void){
 		move(shipy);
 		move_point(&ship_bullet1, 1);
 		move_point(&ship_bullet2, 1);
+
+		move_point(&alien1_bullet, 8);
+		move_point(&alien2_bullet, 8);
+		move_point(&alien3_bullet, 8);
+		
+		for(i=0;i<6;i++)
+			move_point(&idiot_bullets[i], 8);
 		
 		if(c1++>2){
 			move(alien_1);
@@ -233,6 +246,24 @@ int main(void){
 			c3=0;
 		}
 		
+		if(c1shot++>20){
+			alien_fire(&alien1_bullet, alien_1);
+			alien_fire(&alien2_bullet, alien_2);
+			alien_fire(&alien3_bullet, alien_3);
+			c1shot=0;
+		}
+		if(c2shot++>30){
+			alien_fire(&alien4_bullet, alien_4);
+			alien_fire(&alien5_bullet, alien_5);
+			alien_fire(&alien6_bullet, alien_6);
+			c2shot=0;
+		}
+		if(c3shot++>50){
+			alien_fire(&alien7_bullet, alien_7);
+			alien_fire(&alien8_bullet, alien_8);
+			alien_fire(&alien9_bullet, alien_9);
+			c3shot=0;
+		}
 		/*check for bullet collisions*/
 		/*set movement bounded region*/  /*OK*/
 		/*lives system*/
@@ -240,7 +271,7 @@ int main(void){
 		/*#############################*/
 		
 		they_got_shot(ship_bullet1, ship_bullet2, world, idiots, &highscore);
-		//you_got_shot(bullets, idiot_bullets, world)
+		you_got_shot(bullets, idiot_bullets, world, &lives);
 	
 		/*#############################*/
 		

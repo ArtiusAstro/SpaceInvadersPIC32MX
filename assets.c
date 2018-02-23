@@ -53,7 +53,7 @@ void move(Point *thing){
 			move_point(&thing[i], ai);
 }
 
-void descend(Point** world, Point** idiots){ //be careful with the arrays here
+void descend(Point** world, Point** idiots){ //broken
 	int i, j;
 	
 	for(i=4; i<7; i++){
@@ -68,10 +68,18 @@ void descend(Point** world, Point** idiots){ //be careful with the arrays here
 }
 
 void ship_fire(Point *bullet, Point* thing){
-	/*banzaiiiiii*/
+	/*good_banzaiiiiii*/
 	bullet->id=SHIP_BULLET;
-	bullet->xpos=6;
+	bullet->xpos=thing[9].xpos+1;
 	bullet->ypos=thing[9].ypos;
+	bullet->on=1;
+}
+
+void alien_fire(Point *bullet, Point* thing){
+	/*bad_banzaiiiiii*/
+	bullet->id=ALIEN_BULLET;
+	bullet->xpos=thing[10].xpos-1;
+	bullet->ypos=thing[10].ypos;
 	bullet->on=1;
 }
 

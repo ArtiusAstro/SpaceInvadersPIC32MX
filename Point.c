@@ -36,7 +36,7 @@ void move_point(Point *point, int ai) {
 		if(ai)
 			btns = ai; /*if automated, go somewhere*/
 
-		/*UP to DOWN defined in header*/
+		/*UP to DOWN is defined in header*/
 		switch (btns) {
 			case UP: if(point->id==SHIP_BULLET) 
 						point->xpos++; 
@@ -180,3 +180,4 @@ void you_got_shot(Point *shipbul12_alienbul1_3, Point *alienbul4_9, Point **ship
 		}
 	}	
 }
+
