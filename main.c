@@ -95,9 +95,8 @@ void r_u_ded(){ /*if an alien is shot, all its pixels are ded*/
 		}
 		ded=0;
 		for(j=0; j<len; j++){
-			if(!world[i][j].on){
+			if(!world[i][j].on)
 				ded=1;
-			}
 		}
 		if(ded){
 			for(j=0; j<len; j++)
@@ -107,13 +106,14 @@ void r_u_ded(){ /*if an alien is shot, all its pixels are ded*/
 	
 	for(i=0; i<6; i++){
 		ded=0;
-		for(j=0; j<ALIEN_SIZE; j++)
-			if(!idiots[i][j].on){
+		for(j=0; j<ALIEN_SIZE; j++){
+			if(!idiots[i][j].on)
 				ded=1;
-			}
-		if(ded)
+		}
+		if(ded){
 			for(j=0; j<ALIEN_SIZE; j++)
 				idiots[i][j].on=0;
+		}
 	}
 	
 }
@@ -156,12 +156,10 @@ void update(){
 		pointLight(ship_bullet1);
 	
 	for(i=2; i<5; i++)
-		//if(bullets[i].on)
-			pointLight(bullets[i]);
+		pointLight(bullets[i]);
 
 	for(i=0; i<6; i++)
-		//if(idiot_bullets[i].on)
-			pointLight(idiot_bullets[i]);
+		pointLight(idiot_bullets[i]);
 	
 	display_update();
 }
@@ -170,14 +168,14 @@ int main(void){
 	init();
 	clear_disp();
 
-	start();
-	
 	int i,c0,c1,c2,c3,cLED,cRARE,cDOWN, c1shot, c2shot, c3shot, downtime, bullet_count, highscore, lives;
 	c0=c1=c2=c3=cLED=cRARE=cDOWN=bullet_count=c1shot=c2shot=c3shot=0;
 	
-	highscore=0; /*highscore is used in they_got_shot(), a +1 for each is fine, with a +3 for the rare or smth*/
+	highscore=0; /*highscore is used in they_got_shot(), a +1 for each is fine, with a +3 for the rare or smth and endgame at 10pts*/
 	downtime=0; /*checks how many times the wave descended*/
-	lives=0;
+	lives=2; /*game over at 0 lives*/
+	
+	start();
 	
 	game = 1;
 	while(game){
@@ -264,9 +262,6 @@ int main(void){
 			alien_fire(&alien9_bullet, alien_9);
 			c3shot=0;
 		}
-		/*check for bullet collisions*/
-		/*set movement bounded region*/  /*OK*/
-		/*lives system*/
 		
 		/*#############################*/
 		
