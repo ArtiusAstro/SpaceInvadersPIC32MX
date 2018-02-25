@@ -244,19 +244,19 @@ int main(void){
 			c3=0;
 		}
 		
-		if(c1shot++>20){
+		if(c1shot++>50){
 			alien_fire(&alien1_bullet, alien_1);
 			alien_fire(&alien2_bullet, alien_2);
 			alien_fire(&alien3_bullet, alien_3);
 			c1shot=0;
 		}
-		if(c2shot++>30){
+		if(c2shot++>70){
 			alien_fire(&alien4_bullet, alien_4);
 			alien_fire(&alien5_bullet, alien_5);
 			alien_fire(&alien6_bullet, alien_6);
 			c2shot=0;
 		}
-		if(c3shot++>50){
+		if(c3shot++>100){
 			alien_fire(&alien7_bullet, alien_7);
 			alien_fire(&alien8_bullet, alien_8);
 			alien_fire(&alien9_bullet, alien_9);
@@ -265,7 +265,7 @@ int main(void){
 		
 		/*#############################*/
 		
-		they_got_shot(ship_bullet1, ship_bullet2, world, idiots, &highscore);
+		they_got_shot(&ship_bullet1, &ship_bullet2, world, idiots, &highscore);
 		you_got_shot(bullets, idiot_bullets, world, &lives);
 	
 		/*#############################*/
