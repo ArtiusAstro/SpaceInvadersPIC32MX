@@ -16,7 +16,7 @@ uint8_t spi_send_recv(uint8_t data) {
 	return SPI2BUF;
 }
 
-void display_update() {
+void display_update(){
 	int i;
 	set_disp_data();
 
@@ -25,25 +25,25 @@ void display_update() {
 	}
 }
 
-/*void invert(){
+void invert(){
 	int i;
+	set_disp_data();
+	
 	for(i = 0; i < 512; i++) {
 		spi_send_recv(~pixels[i]);
 	}
-	
-	display_update();
-}*/
+}
 
 void set_pixel(int x, int y, int on) {
 	
 	int i = (y / 8) * 128 + x;
 
-	uint8_t k = 1 << (y % 8);
+	uint8_t p = 1 << (y % 8);
 
-	if (on) {
-		pixels[i] |= k;
-	} else {
-		pixels[i] &= ~k;
+	if (on) 
+		pixels[i] |= p;
+	else {
+		pixels[i] &= ~p;
 	}
 }
 
