@@ -77,6 +77,8 @@ void display_update();
 
 void clear_disp();
 
+void invert();
+
 void set_pixel(int x, int y, int on);
 
 int get_pixel(int x, int y);
@@ -89,7 +91,7 @@ void pointLight(Point point);
 
 void move_point(Point *point, int ai);
 
-void they_got_shot(Point ship_bullet1, Point ship_bullet2, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9, int *highscore);
+void they_got_shot(Point *ship_bullet1, Point *ship_bullet2, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9, int *highscore);
 
 void you_got_shot(Point *shipbul12_alienbul1_3, Point *alienbul4_9, Point **ship_barrier12, int *lives);
 
