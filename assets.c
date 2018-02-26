@@ -78,8 +78,8 @@ void ship_fire(Point *bullet, Point* thing){
 void alien_fire(Point *bullet, Point* thing){
 	/*bad_banzaiiiiii*/
 	bullet->id=ALIEN_BULLET;
-	bullet->xpos=thing[10].xpos-1;
-	bullet->ypos=thing[10].ypos;
+	bullet->xpos=thing[2].xpos-1;
+	bullet->ypos=thing[2].ypos;
 	bullet->on=1;
 }
 
