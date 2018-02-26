@@ -94,9 +94,10 @@ void they_got_shot(Point *ship_bullet1, Point *ship_bullet2, Point** ship_barrie
 			default: ;
 		}
 		for(j=0;j<len;j++){
-			if(boom1)
+			if(boom1){
 				break;
-			if(ship_barriers_rare_aliens1_3[i][j].on){
+			}
+			if(ship_barriers_rare_aliens1_3[i][j].on && ship_bullet1->on){
 				if((ship_barriers_rare_aliens1_3[i][j].xpos==ship_bullet1->xpos) && (ship_barriers_rare_aliens1_3[i][j].ypos==ship_bullet1->ypos)){
 					ship_bullet1->on=0;
 					ship_barriers_rare_aliens1_3[i][j].on=0;
@@ -105,9 +106,10 @@ void they_got_shot(Point *ship_bullet1, Point *ship_bullet2, Point** ship_barrie
 			}
 		}
 		for(j=0;j<len;j++){
-			if(boom2)
+			if(boom2){
 				break;
-			if(ship_barriers_rare_aliens1_3[i][j].on){
+			}
+			if(ship_barriers_rare_aliens1_3[i][j].on && ship_bullet2->on){
 				if((ship_barriers_rare_aliens1_3[i][j].xpos==ship_bullet2->xpos) && (ship_barriers_rare_aliens1_3[i][j].ypos==ship_bullet2->ypos)){
 					ship_bullet2->on=0;
 					ship_barriers_rare_aliens1_3[i][j].on=0;
@@ -123,7 +125,7 @@ void they_got_shot(Point *ship_bullet1, Point *ship_bullet2, Point** ship_barrie
 		for(j=0;j<len;j++){
 			if(boom1)
 				break;
-			if(aliens4_9[i][j].on){
+			if(aliens4_9[i][j].on && ship_bullet1->on){
 				if((aliens4_9[i][j].xpos==ship_bullet1->xpos) && (aliens4_9[i][j].ypos==ship_bullet1->ypos)){
 					ship_bullet1->on=0;
 					aliens4_9[i][j].on=0;
@@ -134,7 +136,7 @@ void they_got_shot(Point *ship_bullet1, Point *ship_bullet2, Point** ship_barrie
 		for(j=0;j<len;j++){
 			if(boom2)
 				break;
-			if(aliens4_9[i][j].on){
+			if(aliens4_9[i][j].on && ship_bullet2->on){
 				if((aliens4_9[i][j].xpos==ship_bullet2->xpos) && (aliens4_9[i][j].ypos==ship_bullet2->ypos)){
 					ship_bullet2->on=0;
 					aliens4_9[i][j].on=0;
