@@ -37,7 +37,7 @@ Point alien9_bullet;
 /*collection*/
 Point* world[7] = {shipy, barrier_1, barrier_2, rare_alien, alien_1, alien_2, alien_3};
 Point* idiots[6] = {alien_4, alien_5, alien_6, alien_7, alien_8, alien_9};
-Point bullets[5] = {ship_bullet1, ship_bullet2, alien1_bullet, alien2_bullet, alien3_bullet}:
+Point bullets[5] = {ship_bullet1, ship_bullet2, alien1_bullet, alien2_bullet, alien3_bullet};
 Point idiot_bullets[6] = {alien4_bullet, alien5_bullet, alien6_bullet, alien7_bullet, alien8_bullet, alien9_bullet};
 
 volatile char* lights = (volatile char*) 0xbf886110; /*PORTE*/
