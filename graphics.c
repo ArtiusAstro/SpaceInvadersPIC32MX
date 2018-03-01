@@ -9,6 +9,9 @@
 
 uint8_t pixels[512];
 
+
+\
+
 uint8_t spi_send_recv(uint8_t data) {
 	while(!(SPI2STAT & 0x08));
 	SPI2BUF = data;
@@ -44,7 +47,7 @@ void set_pixel(int x, int y, int on) {
 		pixels[i] |= p;
 	else {
 		pixels[i] &= ~p;
-	}
+	}                                                                                                                                                                                                 
 }
 
 int get_pixel(int x, int y) {

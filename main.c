@@ -14,13 +14,16 @@ void delay(int cyc){
 }
 
 int main(void){
+	
 	int phase;
 	phase=1;
 	init();
 	
 	for(;;){
+		clear_disp();
+		//reset();
 		switch(phase){
-			case 0: /*title*/
+			case 0: /*title SHOULD TAKE DIFFICULTY*/
 			//phase = title_phase();
 			break;
 			
@@ -28,7 +31,7 @@ int main(void){
 			phase = invaders_phase();
 			break;
 			
-			case 2: /*pause*/
+			case 2: /*pause NOT NECESSARY*/
 			//phase = pause_phase();
 			break;
 			
@@ -36,7 +39,6 @@ int main(void){
 			phase = endgame_phase();
 			break;
 		}
-		delay(10);
 	}
 
 	return 0;

@@ -61,9 +61,13 @@ typedef struct {
         int xpos, ypos, id, on;
 } Point;
 
+void delay(int cyc);
+
 /*####################################################################*/
 
 int getbtns();
+
+int getsw();
 
 void init();
 
@@ -91,9 +95,9 @@ void pointLight(Point point);
 
 void move_point(Point *point, int ai);
 
-void they_got_shot(Point *ship_bullet1, Point *ship_bullet2, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9, int *highscore);
+void they_got_shot(Point *ship_bullet1, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9, int *highscore);
 
-void you_got_shot(Point *shipbul12_alienbul1_3, Point *alienbul4_9, Point **ship_barrier12, int *lives);
+void you_got_shot(Point **bad_bullets, Point **ship_barrier12, int *lives, int* inverted);
 
 /*####################################################################*/
 

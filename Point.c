@@ -38,7 +38,7 @@ void move_point(Point *point, int ai) {
 
 		/*UP to DOWN is defined in header*/
 		switch (btns) {
-			case UP: if(point->id==SHIP_BULLET) 
+			case UP: if(point->id==SHIP_BULLET || point->id==SHIP) 
 						point->xpos++; 
 					 break;
 			case LEFT: (point->ypos--); break;
@@ -53,6 +53,7 @@ void move_point(Point *point, int ai) {
 			switch (point->id){
 				case ALIEN_BULLET:
 				case SHIP_BULLET:
+				case SHIP:
 					point->on=0;
 					point->xpos=mod_loop(point->xpos, 128); 
 					break;
@@ -65,12 +66,12 @@ void move_point(Point *point, int ai) {
 	}
 }
 
-void they_got_shot(Point *ship_bullet1, Point *ship_bullet2, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9, int *highscore)
+void they_got_shot(Point *ship_bullet1, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9, int *highscore)
 {
 	int i, j, len, boom1, boom2;
 	boom1=boom2=0;
 	for(i=1;i<7;i++){ //skip the ship
-		if(boom1 && boom2)
+		if(boom1)
 			break;
 		switch (ship_barriers_rare_aliens1_3[i][0].id){
 			case BARRIER_1:
@@ -105,22 +106,10 @@ void they_got_shot(Point *ship_bullet1, Point *ship_bullet2, Point** ship_barrie
 				}
 			}
 		}
-		for(j=0;j<len;j++){
-			if(boom2){
-				break;
-			}
-			if(ship_barriers_rare_aliens1_3[i][j].on && ship_bullet2->on){
-				if((ship_barriers_rare_aliens1_3[i][j].xpos==ship_bullet2->xpos) && (ship_barriers_rare_aliens1_3[i][j].ypos==ship_bullet2->ypos)){
-					ship_bullet2->on=0;
-					ship_barriers_rare_aliens1_3[i][j].on=0;
-					boom2=1;
-				}
-			}
-		}
 	}	
 		
 	for(i=0;i<ALIEN_SIZE;i++){
-		if(boom1 && boom2)
+		if(boom1)
 			break;
 		for(j=0;j<len;j++){
 			if(boom1)
@@ -132,21 +121,10 @@ void they_got_shot(Point *ship_bullet1, Point *ship_bullet2, Point** ship_barrie
 					boom1=1;
 				}
 			}
-		}
-		for(j=0;j<len;j++){
-			if(boom2)
-				break;
-			if(aliens4_9[i][j].on && ship_bullet2->on){
-				if((aliens4_9[i][j].xpos==ship_bullet2->xpos) && (aliens4_9[i][j].ypos==ship_bullet2->ypos)){
-					ship_bullet2->on=0;
-					aliens4_9[i][j].on=0;
-					boom2=1;
-				}
-			}
 		}	
 	}
 }
-void you_got_shot(Point *shipbul12_alienbul1_3, Point *alienbul4_9, Point **ship_barrier12, int *lives)
+void you_got_shot(Point *bad_bullets[10], Point **ship_barrier12, int *lives, int *invert)
 {
 	int i, j, k, len;
 	for(i=0;i<3;i++){
@@ -155,24 +133,14 @@ void you_got_shot(Point *shipbul12_alienbul1_3, Point *alienbul4_9, Point **ship
 		else
 			len=BARRIER_SIZE;
 		for(j=0;j<len;j++){
-			for(k=2;k<5;k++){
-				if(ship_barrier12[i][j].on){
-					if((ship_barrier12[i][j].xpos==shipbul12_alienbul1_3[k].xpos) && (ship_barrier12[i][j].ypos==shipbul12_alienbul1_3[k].ypos)){
-						shipbul12_alienbul1_3[k].on=0;
-						if(ship_barrier12[i][0].id==SHIP)
+			if(ship_barrier12[i][j].on){
+				for(k=0;k<10;k++){
+					if((ship_barrier12[i][j].xpos==bad_bullets[k]->xpos) && (ship_barrier12[i][j].ypos==bad_bullets[k]->ypos)){
+						bad_bullets[k]->on=0;
+						if(ship_barrier12[i][0].id==SHIP){
 							*lives = *lives - 1;
-						else
-							ship_barrier12[i][j].on=0;
-						break;
-					}
-				}
-			}
-			for(k=0;k<6;k++){
-				if(ship_barrier12[i][j].on){
-					if((ship_barrier12[i][j].xpos==alienbul4_9[k].xpos) && (ship_barrier12[i][j].ypos==alienbul4_9[k].ypos)){
-						alienbul4_9[k].on=0;
-						if(ship_barrier12[i][0].id==SHIP)
-							*lives = *lives - 1;
+							*invert = *invert * -1;
+						}
 						else
 							ship_barrier12[i][j].on=0;
 						break;
