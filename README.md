@@ -2,7 +2,7 @@
 By Ayub Atif and Wajd Tohme as part of KTH IS1200.
 
 Project abstract:
-https://docs.google.com/document/d/1TF4ntXGd8Ek8SFzuzT3Ju0wxF4fn5X0Q7KfAnj81Rpo/edit
+https://docs.google.com/document/d/1rtOi3syUI79MjoVIz4gb7yqPX0yJSQfVGYu5VuNc9mw/edit#heading=h.5wn73fgo9781
 
 Any C or assembly files will automatically be built,
 no need to edit the Makefile.
