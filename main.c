@@ -1,6 +1,6 @@
 /* main.c
-   
-   This file written 2018-02-06 by Ayub Atif 
+
+   This file written 2018-02-06 by Ayub Atif
    */
 
 #include <pic32mx.h>
@@ -9,6 +9,153 @@
 #include "switch.h"
 
 volatile char* lights = (volatile char*) 0xbf886110; /*PORTE*/
+char textbuffer[4][16];
+
+static const uint8_t const font[] = {
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 94, 0, 0, 0, 0,
+	0, 0, 4, 3, 4, 3, 0, 0,
+	0, 36, 126, 36, 36, 126, 36, 0,
+	0, 36, 74, 255, 82, 36, 0, 0,
+	0, 70, 38, 16, 8, 100, 98, 0,
+	0, 52, 74, 74, 52, 32, 80, 0,
+	0, 0, 0, 4, 3, 0, 0, 0,
+	0, 0, 0, 126, 129, 0, 0, 0,
+	0, 0, 0, 129, 126, 0, 0, 0,
+	0, 42, 28, 62, 28, 42, 0, 0,
+	0, 8, 8, 62, 8, 8, 0, 0,
+	0, 0, 0, 128, 96, 0, 0, 0,
+	0, 8, 8, 8, 8, 8, 0, 0,
+	0, 0, 0, 0, 96, 0, 0, 0,
+	0, 64, 32, 16, 8, 4, 2, 0,
+	0, 62, 65, 73, 65, 62, 0, 0,
+	0, 0, 66, 127, 64, 0, 0, 0,
+	0, 0, 98, 81, 73, 70, 0, 0,
+	0, 0, 34, 73, 73, 54, 0, 0,
+	0, 0, 14, 8, 127, 8, 0, 0,
+	0, 0, 35, 69, 69, 57, 0, 0,
+	0, 0, 62, 73, 73, 50, 0, 0,
+	0, 0, 1, 97, 25, 7, 0, 0,
+	0, 0, 54, 73, 73, 54, 0, 0,
+	0, 0, 6, 9, 9, 126, 0, 0,
+	0, 0, 0, 102, 0, 0, 0, 0,
+	0, 0, 128, 102, 0, 0, 0, 0,
+	0, 0, 8, 20, 34, 65, 0, 0,
+	0, 0, 20, 20, 20, 20, 0, 0,
+	0, 0, 65, 34, 20, 8, 0, 0,
+	0, 2, 1, 81, 9, 6, 0, 0,
+	0, 28, 34, 89, 89, 82, 12, 0,
+	0, 0, 126, 9, 9, 126, 0, 0,
+	0, 0, 127, 73, 73, 54, 0, 0,
+	0, 0, 62, 65, 65, 34, 0, 0,
+	0, 0, 127, 65, 65, 62, 0, 0,
+	0, 0, 127, 73, 73, 65, 0, 0,
+	0, 0, 127, 9, 9, 1, 0, 0,
+	0, 0, 62, 65, 81, 50, 0, 0,
+	0, 0, 127, 8, 8, 127, 0, 0,
+	0, 0, 65, 127, 65, 0, 0, 0,
+	0, 0, 32, 64, 64, 63, 0, 0,
+	0, 0, 127, 8, 20, 99, 0, 0,
+	0, 0, 127, 64, 64, 64, 0, 0,
+	0, 127, 2, 4, 2, 127, 0, 0,
+	0, 127, 6, 8, 48, 127, 0, 0,
+	0, 0, 62, 65, 65, 62, 0, 0,
+	0, 0, 127, 9, 9, 6, 0, 0,
+	0, 0, 62, 65, 97, 126, 64, 0,
+	0, 0, 127, 9, 9, 118, 0, 0,
+	0, 0, 38, 73, 73, 50, 0, 0,
+	0, 1, 1, 127, 1, 1, 0, 0,
+	0, 0, 63, 64, 64, 63, 0, 0,
+	0, 31, 32, 64, 32, 31, 0, 0,
+	0, 63, 64, 48, 64, 63, 0, 0,
+	0, 0, 119, 8, 8, 119, 0, 0,
+	0, 3, 4, 120, 4, 3, 0, 0,
+	0, 0, 113, 73, 73, 71, 0, 0,
+	0, 0, 127, 65, 65, 0, 0, 0,
+	0, 2, 4, 8, 16, 32, 64, 0,
+	0, 0, 0, 65, 65, 127, 0, 0,
+	0, 4, 2, 1, 2, 4, 0, 0,
+	0, 64, 64, 64, 64, 64, 64, 0,
+	0, 0, 1, 2, 4, 0, 0, 0,
+	0, 0, 48, 72, 40, 120, 0, 0,
+	0, 0, 127, 72, 72, 48, 0, 0,
+	0, 0, 48, 72, 72, 0, 0, 0,
+	0, 0, 48, 72, 72, 127, 0, 0,
+	0, 0, 48, 88, 88, 16, 0, 0,
+	0, 0, 126, 9, 1, 2, 0, 0,
+	0, 0, 80, 152, 152, 112, 0, 0,
+	0, 0, 127, 8, 8, 112, 0, 0,
+	0, 0, 0, 122, 0, 0, 0, 0,
+	0, 0, 64, 128, 128, 122, 0, 0,
+	0, 0, 127, 16, 40, 72, 0, 0,
+	0, 0, 0, 127, 0, 0, 0, 0,
+	0, 120, 8, 16, 8, 112, 0, 0,
+	0, 0, 120, 8, 8, 112, 0, 0,
+	0, 0, 48, 72, 72, 48, 0, 0,
+	0, 0, 248, 40, 40, 16, 0, 0,
+	0, 0, 16, 40, 40, 248, 0, 0,
+	0, 0, 112, 8, 8, 16, 0, 0,
+	0, 0, 72, 84, 84, 36, 0, 0,
+	0, 0, 8, 60, 72, 32, 0, 0,
+	0, 0, 56, 64, 32, 120, 0, 0,
+	0, 0, 56, 64, 56, 0, 0, 0,
+	0, 56, 64, 32, 64, 56, 0, 0,
+	0, 0, 72, 48, 48, 72, 0, 0,
+	0, 0, 24, 160, 160, 120, 0, 0,
+	0, 0, 100, 84, 84, 76, 0, 0,
+	0, 0, 8, 28, 34, 65, 0, 0,
+	0, 0, 0, 126, 0, 0, 0, 0,
+	0, 0, 65, 34, 28, 8, 0, 0,
+	0, 0, 4, 2, 4, 2, 0, 0,
+	0, 120, 68, 66, 68, 120, 0, 0,
+};
+
+void display_string(int line, char *s) {
+	int i;
+	if(line < 0 || line >= 4)
+		return;
+	if(!s)
+		return;
+
+	for(i = 0; i < 16; i++)
+		if(*s) {
+			textbuffer[line][i] = *s;
+			s++;
+		} else
+			textbuffer[line][i] = ' ';
+}
 
 void delay(int cyc){
 	volatile int i;
@@ -16,19 +163,70 @@ void delay(int cyc){
 }
 
 void start(){
-	
+
 }
 
 void r_u_ded(){ /*if an alien is shot, all its pixels are ded*/
-	
-	
+
 }
 
 void update(){
-	
+
+}
+
+void update_string(){
+	int i, j, k;
+	int c;
+	for(i = 0; i < 4; i++) {
+		DISPLAY_COMMAND_DATA_PORT &= ~DISPLAY_COMMAND_DATA_MASK;
+		spi_send_recv(0x22);
+		spi_send_recv(i);
+
+		spi_send_recv(0x0);
+		spi_send_recv(0x10);
+
+		DISPLAY_COMMAND_DATA_PORT |= DISPLAY_COMMAND_DATA_MASK;
+
+		for(j = 0; j < 16; j++) {
+			c = textbuffer[i][j];
+			if(c & 0x80)
+				continue;
+
+			for(k = 0; k < 8; k++)
+				spi_send_recv(font[c*8 + k]);
+		}
+	}
+}
+char score_as_char[3];
+void num2string(int num){
+	int dig2, dig3;
+	dig2 = 0;
+	dig3 = 0;
+	while (num > 99) {
+		num = num - 100;
+		dig3++;
+	}
+
+	dig3 = dig3 +48;
+
+	while (num > 9) {
+		num = num - 10;
+		dig2++;
+	}
+
+	dig2 = dig2 + 48;
+	num = num + 48;
+
+	score_as_char[0] = dig3;
+	score_as_char[1] = dig2;
+	score_as_char[2] = num;
 }
 
 int main(void){
+	int highscore;
+	highscore=0; /*highscore is used in they_got_shot()*/
+	for(;;){
+
 	/*things*/
 	Point shipy[SHIP_SIZE];
 	Point barrier_1[BARRIER_SIZE];
@@ -58,26 +256,53 @@ int main(void){
 	/*collection*/
 	Point* world[7] = {shipy, barrier_1, barrier_2, rare_alien, alien_1, alien_2, alien_3};
 	Point* idiots[6] = {alien_4, alien_5, alien_6, alien_7, alien_8, alien_9};
-	Point *bad_bullets[9] = {&alien1_bullet, &alien2_bullet, &alien3_bullet, &alien4_bullet, 
-								&alien5_bullet, &alien6_bullet, &alien7_bullet, 
+	Point *bad_bullets[9] = {&alien1_bullet, &alien2_bullet, &alien3_bullet, &alien4_bullet,
+								&alien5_bullet, &alien6_bullet, &alien7_bullet,
 									&alien8_bullet, &alien9_bullet};
 
 	int game;
 	int inverted;
-	
+	int diff;
+
 	init();
 	clear_disp();
 
-	int i,j,len,ded,c0,c1,c2,c3,cLED,cRARE,cDOWN, c1shot, c2shot, c3shot, downtime, bullet_count, highscore, lives;
+	int i,j,len,ded,c0,c1,c2,c3,cLED,cRARE,cDOWN, c1shot, c2shot, c3shot, c4shot, c5shot,
+	 			downtime, bullet_count, lives;
 	c0=c1=c2=c3=cLED=cRARE=cDOWN=bullet_count=c1shot=c2shot=c3shot=0;
-	
-	highscore=0; /*highscore is used in they_got_shot(), a +1 for each is fine, with a +3 for the rare or smth and endgame at 10pts*/
+
 	downtime=0; /*checks how many times the wave descended*/
-	lives=2; /*game over at 0 lives*/
+	lives=5; /*game over at 0 lives*/
 	inverted=1; /*invert when rare shot down, if >0 then invert display*/
-	
+	diff=1;
+
 	*lights=0x00;
-	
+
+	int title;
+	int end;
+	end=0;
+	char score[9];
+	title=1;
+	while(title){
+		if(getbtns()==DOWN)
+			title=0;
+		score[0] = 'S';
+		score[1] = 'c';
+		score[2] = 'o';
+		score[3] = 'r';
+		score[4] = 'e';
+		score[5] = ':';
+		score[6] = ' ';
+		for(i=0;i<3;i++)
+			score[7+i] = score_as_char[i];
+		display_string(0,"Nin Switch 2.0"); //title
+		display_string(1, score); //Highscore is: score
+		display_string(2,"SW4 ON 4 ez mode"); //diff is controlled with SW3
+		display_string(3,"btn4 to START"); //press btn4 to start
+
+		update_string();
+	}
+
 	init_ship(shipy, 5, 16);
 	init_barriers(barrier_1, barrier_2, 18);
 	init_alien(alien_1, 100, 2);
@@ -90,44 +315,57 @@ int main(void){
 	init_alien(alien_8, 80, 12);
 	init_alien(alien_9, 80, 22);
 	rare_spawn(rare_alien);
-	
+
 	game = 1;
+	init();
+	clear_disp();
 	while(game){
-		
+
+		while(getsw()&0x2==1){
+			if(getsw()&0x2==0)
+				break;
+			}
+		if(getsw()&0x1==1)
+			diff=2;
+		else
+			diff=1;
+
+
+		if(lives==0)
+			game=0;
+
+		*lights = lives;
+
 		if(getbtns() == DOWN){
 			if(bullet_count==0){
 				ship_fire(&ship_bullet1, shipy);
 				bullet_count=1;
 			}
 		}
-		
+
 		if(!ship_bullet1.on)
 			bullet_count=0;
-		
+
 		if(cLED++>35){
-			//LED++
-			*lights += 1<<cRARE;
-			if(cRARE++>7){ 
+			if(cRARE++>7){
 				rare_spawn(rare_alien); //rare_alien grants power up on boom
-				*lights=0x00;
-				
+
 				if(cDOWN++>0){
 					if(downtime<MAX_DOWN+1)
 						descend(world, idiots); //DANGER
-					downtime++;	
-					if(downtime==MAX_DOWN);
-						/*GAME OVER*/
-					
+					downtime++;
+					if(downtime==MAX_DOWN)
+						game=0; /*GAME OVER*/
 					cDOWN=0;
 				}
 				cRARE=0;
 			}
 			cLED=0;
 		}
-		
+
 		move(shipy);
 		move_point(&ship_bullet1, 1);
-		
+
 		move_point(&alien1_bullet, 8);
 		move_point(&alien2_bullet, 8);
 		move_point(&alien3_bullet, 8);
@@ -137,8 +375,8 @@ int main(void){
 		move_point(&alien7_bullet, 8);
 		move_point(&alien8_bullet, 8);
 		move_point(&alien9_bullet, 8);
-		
-		
+
+
 		if(c1++>2){
 			move(alien_1);
 			move(alien_2);
@@ -158,28 +396,40 @@ int main(void){
 			move(rare_alien);
 			c3=0;
 		}
-		
-		if(c1shot++>60){
+
+		/*c1shot=c1shot*diff;
+		c2shot=c1shot*diff;
+		c3shot=c1shot*diff;
+		c4shot=c1shot*diff;
+		c5shot=c1shot*diff;*/
+
+		if(c1shot++>80){
 			alien_fire(&alien1_bullet, alien_1);
-			alien_fire(&alien2_bullet, alien_2);
-			alien_fire(&alien3_bullet, alien_3);
+			alien_fire(&alien4_bullet, alien_4);
 			c1shot=0;
 		}
-		if(c2shot++>80){
-			alien_fire(&alien4_bullet, alien_4);
-			alien_fire(&alien5_bullet, alien_5);
+		if(c2shot++>200){
+			alien_fire(&alien2_bullet, alien_2);
 			alien_fire(&alien6_bullet, alien_6);
 			c2shot=0;
 		}
-		if(c3shot++>100){
+		if(c3shot++>280){
+			alien_fire(&alien3_bullet, alien_3);
 			alien_fire(&alien7_bullet, alien_7);
-			alien_fire(&alien8_bullet, alien_8);
-			alien_fire(&alien9_bullet, alien_9);
 			c3shot=0;
 		}
-		
+		if(c4shot++>360){
+			alien_fire(&alien5_bullet, alien_5);
+			alien_fire(&alien8_bullet, alien_8);
+			c4shot=0;
+		}
+		if(c5shot++>440){
+			alien_fire(&alien9_bullet, alien_9);
+			c5shot=0;
+		}
+
 		/*#############################*/
-		
+
 		if(ship_bullet1.xpos==115 && rare_alien[0].on){
 			for(i=0;i<RARE_SIZE;i++){
 				if(rare_alien[i].ypos == ship_bullet1.ypos){
@@ -188,13 +438,13 @@ int main(void){
 				}
 			}
 		}
-		
+
 		they_got_shot(&ship_bullet1, world, idiots, &highscore);
-		you_got_shot(bad_bullets, world, &lives, &inverted); 
-		
-	
+		you_got_shot(bad_bullets, world, &lives, &inverted);
+
+
 		/*#############################*/
-		
+
 	clear_disp();
 
 	for(i=3; i<7; i++){
@@ -219,7 +469,7 @@ int main(void){
 				world[i][j].on=0;
 		}
 	}
-	
+
 	for(i=0; i<6; i++){
 		ded=0;
 		for(j=0; j<ALIEN_SIZE; j++){
@@ -231,11 +481,11 @@ int main(void){
 				idiots[i][j].on=0;
 		}
 	}
-	
+
 	for(i=0; i<7; i++){
 		switch(world[i][0].id){
-			case SHIP: 
-				len=SHIP_SIZE; 
+			case SHIP:
+				len=SHIP_SIZE;
 				break;
 			case BARRIER_1:
 			case BARRIER_2:
@@ -254,26 +504,31 @@ int main(void){
 		for(j=0; j<len; j++)
 				pointLight(world[i][j]);
 	}
-	
+
 	for(i=0; i<6; i++){
 		for(j=0; j<ALIEN_SIZE; j++)
 			pointLight(idiots[i][j]);
 	}
-		
+
 	if(ship_bullet1.on)
 		pointLight(ship_bullet1);
-	
+
 	for(i=2; i<9; i++)
 		pointLight(*bad_bullets[i]);
-	
+
 	if(inverted>0)
 		invert();
 	else
 		display_update();
-		
+
 		delay(10);
 	}
-	
-	for(;;) ;
+
+	while(end){
+
+
+
+	}
+}
 	return 0;
 }

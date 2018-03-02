@@ -1,13 +1,13 @@
 /* switch.h
-   
-   This file written 2018-02-06 by Ayub Atif 
+
+   This file written 2018-02-06 by Ayub Atif
    */
 
 #ifndef SWITCH_H
 #define SWITCH_H
 
 #include <pic32mx.h>
-#include <stdint.h> 
+#include <stdint.h>
 
 #define DISPLAY_VDD PORTFbits.RF6
 #define DISPLAY_VBATT PORTFbits.RF5
@@ -25,7 +25,7 @@
 
 /*####################################################################*/
 
-#define UP 1 
+#define UP 1
 #define LEFT 2 //standard
 #define RIGHT 4 //standard
 #define DOWN 8 //wave descends
@@ -62,6 +62,8 @@ typedef struct {
 } Point;
 
 void delay(int cyc);
+
+void display_string(int line, char *s);
 
 /*####################################################################*/
 
@@ -118,7 +120,7 @@ void rare_spawn(Point *ship);
 /*####################################################################*/
 
 //int title_phase();
-			
+
 int invaders_phase();
 
 //int pause_phase();
