@@ -28,10 +28,6 @@ int getbtns() {
 	return read;
 }
 
-int getsw() {
-	return (PORTD >> 8) & 0x1;
-}
-
 void init_display() {
 	/* hello-display */
 

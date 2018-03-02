@@ -196,7 +196,6 @@ void init_alien(Point *alien, int x_origin, int y_origin){
 			case 9:
 				for(i=0; i<len; i++)
 					alien[i].id = ALIEN_9; 
-				alien_count=0;
 				break;
 			default:	;
 		}
