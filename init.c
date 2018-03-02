@@ -1,8 +1,8 @@
 /* init.c
-   
-   This file written 2018-02-06 by Ayub Atif 
+
+   This file written 2018-02-06 by Ayub Atif
    */
-   
+
 #include "switch.h"
 
 void set_disp_cmd() {
@@ -16,7 +16,7 @@ void set_disp_data() {
 void init_io() {
 	/* buttons */
 	TRISDSET = 0xe0;
-	
+
 	/* led */
 	TRISECLR = 0xff;
 }
@@ -26,6 +26,10 @@ int getbtns() {
 	int btn1 = (PORTF >> 1) & 0x1;
 	int read = btns234 + btn1;
 	return read;
+}
+
+int getsw(void){
+	return (PORTD >> 8) & 0xf;
 }
 
 void init_display() {

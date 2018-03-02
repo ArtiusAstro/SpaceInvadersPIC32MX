@@ -1,13 +1,13 @@
 /* switch.h
-   
-   This file written 2018-02-06 by Ayub Atif 
+
+   This file written 2018-02-06 by Ayub Atif
    */
 
 #ifndef SWITCH_H
 #define SWITCH_H
 
 #include <pic32mx.h>
-#include <stdint.h> 
+#include <stdint.h>
 
 #define DISPLAY_VDD PORTFbits.RF6
 #define DISPLAY_VBATT PORTFbits.RF5
@@ -25,7 +25,7 @@
 
 /*####################################################################*/
 
-#define UP 1 
+#define UP 1
 #define LEFT 2 //standard
 #define RIGHT 4 //standard
 #define DOWN 8 //wave descends
@@ -61,9 +61,15 @@ typedef struct {
         int xpos, ypos, id, on;
 } Point;
 
+void delay(int cyc);
+
+void display_string(int line, char *s);
+
 /*####################################################################*/
 
 int getbtns();
+
+int getsw();
 
 void init();
 
@@ -91,9 +97,9 @@ void pointLight(Point point);
 
 void move_point(Point *point, int ai);
 
-void they_got_shot(Point *ship_bullet1, Point *ship_bullet2, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9, int *highscore);
+void they_got_shot(Point *ship_bullet1, Point** ship_barriers_rare_aliens1_3, Point **aliens4_9, int *highscore);
 
-void you_got_shot(Point *shipbul12_alienbul1_3, Point *alienbul4_9, Point **ship_barrier12, int *lives);
+void you_got_shot(Point **bad_bullets, Point **ship_barrier12, int *lives, int* inverted);
 
 /*####################################################################*/
 
@@ -110,6 +116,16 @@ void init_barriers(Point *barrier_1, Point *barrier_2, int x_origin);
 void init_alien(Point* alien, int x_origin, int y_origin);
 
 void rare_spawn(Point *ship);
+
+/*####################################################################*/
+
+//int title_phase();
+
+int invaders_phase();
+
+//int pause_phase();
+
+int endgame_phase();
 
 /*####################################################################*/
 
