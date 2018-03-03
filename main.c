@@ -199,27 +199,29 @@ void update_string(){
 }
 char score_as_char[3];
 void num2string(int num){
-	int dig2, dig3;
-	dig2 = 0;
-	dig3 = 0;
+	int num2, num3;
+	char dig1, dig2, dig3;
+
+	num2 = 0;
+	num3 = 0;
 	while (num > 99) {
 		num = num - 100;
-		dig3++;
+		num3++;
 	}
 
-	dig3 = dig3 +48;
+	dig3 = 1;
 
 	while (num > 9) {
 		num = num - 10;
-		dig2++;
+		num2++;
 	}
 
-	dig2 = dig2 + 48;
-	num = num + 48;
+	dig2 = 2;
+	dig1 = 3;
 
 	score_as_char[0] = dig3;
 	score_as_char[1] = dig2;
-	score_as_char[2] = num;
+	score_as_char[2] = dig1;
 }
 
 int main(void){
@@ -289,7 +291,7 @@ int main(void){
 	int title;
 	int end;
 	end=0;
-	char score[9];
+	char score[12];
 	title=1;
 	game = 1;
 	while(title){
@@ -300,6 +302,7 @@ int main(void){
 		}
 		if(getbtns()==DOWN)
 			title=0;
+		num2string(highscore);
 		score[0] = 'H';
 		score[1] = '-';
 		score[2] = 'S';
@@ -309,8 +312,9 @@ int main(void){
 		score[6] = 'e';
 		score[7] = ':';
 		score[8] = ' ';
-		for(i=0;i<3;i++)
+		for(i=0;i<3;i++){
 			score[9+i] = score_as_char[i];
+		}
 		display_string(0,"Nin Switch 2.0"); //title
 		display_string(1, score); //Highscore is: score
 		display_string(2,"SW1 ON 4 ez mode"); //diff is controlled with SW3
@@ -578,13 +582,13 @@ int main(void){
 				shot=1;
 
 		if(shot){
-			if(c1++>6){
+			if(c1++>15){
 				for(i=0;i<SHIP_SIZE;i++)
 					move_point(&shipy[i], 1);
 			}
 		}
-		else
-			move(shipy);
+
+		move(shipy);
 
 		if(shipy[14].xpos==80){
 			for(i=0;i<ALIEN_SIZE;i++){
