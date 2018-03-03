@@ -199,8 +199,8 @@ void update_string(){
 }
 char score_as_char[3];
 void num2string(int num){
+	char digs[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 	int num2, num3;
-	char dig1, dig2, dig3;
 
 	num2 = 0;
 	num3 = 0;
@@ -209,24 +209,21 @@ void num2string(int num){
 		num3++;
 	}
 
-	dig3 = 1;
-
 	while (num > 9) {
 		num = num - 10;
 		num2++;
 	}
 
-	dig2 = 2;
-	dig1 = 3;
-
-	score_as_char[0] = dig3;
-	score_as_char[1] = dig2;
-	score_as_char[2] = dig1;
+	score_as_char[0] = digs[num3];
+	score_as_char[1] = digs[num2];
+	score_as_char[2] = digs[num];
 }
 
 int main(void){
 	int highscore;
 	highscore=0; /*highscore is used in they_got_shot()*/
+	int current_score;
+	current_score=0;
 	for(;;){
 
 	/*things*/
@@ -269,7 +266,6 @@ int main(void){
 	int game;
 	int inverted;
 	int diff;
-	int current_score;
 
 	int i,j,len,ded,c0,c1,c2,c3,cLED,cRARE,cDOWN, c1shot, c2shot, c3shot, c4shot, c5shot,
 	 			downtime, bullet_count, lives, first_shot_delay;
@@ -280,7 +276,6 @@ int main(void){
 	inverted=1; /*invert when rare shot down, if >0 then invert display*/
 	diff=1;
 	first_shot_delay=1;
-	current_score=0;
 	int win, shot; //win is for endgame win, and shot is for firing endgame shot
 
 	*lights=0x00;
