@@ -49,6 +49,7 @@
 #define ALIEN_9 12
 #define SHIP_BULLET 13
 #define ALIEN_BULLET 14
+#define BOSS 15
 
 #define SHIP_SIZE 16
 #define ALIEN_SIZE 12

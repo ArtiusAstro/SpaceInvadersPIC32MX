@@ -241,6 +241,7 @@ int main(void){
 	Point alien_8[ALIEN_SIZE];
 	Point alien_9[ALIEN_SIZE];
 	Point rare_alien[RARE_SIZE];
+	Point boss[ALIEN_SIZE];
 	Point ship_bullet1;
 	Point ship_bullet2;
 	Point alien1_bullet;
@@ -260,44 +261,59 @@ int main(void){
 								&alien5_bullet, &alien6_bullet, &alien7_bullet,
 									&alien8_bullet, &alien9_bullet};
 
-	int game;
-	int inverted;
-	int diff;
-
 	init();
 	clear_disp();
 
+	int game;
+	int inverted;
+	int diff;
+	int current_score;
+
 	int i,j,len,ded,c0,c1,c2,c3,cLED,cRARE,cDOWN, c1shot, c2shot, c3shot, c4shot, c5shot,
-	 			downtime, bullet_count, lives;
+	 			downtime, bullet_count, lives, first_shot_delay;
 	c0=c1=c2=c3=cLED=cRARE=cDOWN=bullet_count=c1shot=c2shot=c3shot=0;
 
 	downtime=0; /*checks how many times the wave descended*/
-	lives=5; /*game over at 0 lives*/
+	lives=10; /*game over at 0 lives*/
 	inverted=1; /*invert when rare shot down, if >0 then invert display*/
 	diff=1;
+	first_shot_delay=1;
+	current_score=0;
+	int win, shot; //win is for endgame win, and shot is for firing endgame shot
 
 	*lights=0x00;
+
+	if(current_score>highscore)
+			highscore=current_score;
 
 	int title;
 	int end;
 	end=0;
 	char score[9];
 	title=1;
+	game = 1;
 	while(title){
+		if(getsw()==0x3){
+			game=0;
+			end=1;
+			title=0;
+		}
 		if(getbtns()==DOWN)
 			title=0;
-		score[0] = 'S';
-		score[1] = 'c';
-		score[2] = 'o';
-		score[3] = 'r';
-		score[4] = 'e';
-		score[5] = ':';
-		score[6] = ' ';
+		score[0] = 'H';
+		score[1] = '-';
+		score[2] = 'S';
+		score[3] = 'c';
+		score[4] = 'o';
+		score[5] = 'r';
+		score[6] = 'e';
+		score[7] = ':';
+		score[8] = ' ';
 		for(i=0;i<3;i++)
-			score[7+i] = score_as_char[i];
+			score[9+i] = score_as_char[i];
 		display_string(0,"Nin Switch 2.0"); //title
 		display_string(1, score); //Highscore is: score
-		display_string(2,"SW4 ON 4 ez mode"); //diff is controlled with SW3
+		display_string(2,"SW1 ON 4 ez mode"); //diff is controlled with SW3
 		display_string(3,"btn4 to START"); //press btn4 to start
 
 		update_string();
@@ -316,25 +332,28 @@ int main(void){
 	init_alien(alien_9, 80, 22);
 	rare_spawn(rare_alien);
 
-	game = 1;
 	init();
 	clear_disp();
 	while(game){
 
-		while(getsw()&0x2==1){
-			if(getsw()&0x2==0)
+		while(getsw()&0x8){
+			if(getsw()&0x4)
+				*lights = current_score;
+			else
+				*lights = lives;
+			if(!(getsw()&0x8))
 				break;
 			}
-		if(getsw()&0x1==1)
-			diff=2;
-		else
-			diff=1;
 
-
-		if(lives==0)
+		if(lives==0){
+			delay(6000000);
 			game=0;
+		}
 
-		*lights = lives;
+		if(getsw()&0x4)
+			*lights = current_score;
+		else
+			*lights = lives;
 
 		if(getbtns() == DOWN){
 			if(bullet_count==0){
@@ -354,7 +373,7 @@ int main(void){
 					if(downtime<MAX_DOWN+1)
 						descend(world, idiots); //DANGER
 					downtime++;
-					if(downtime==MAX_DOWN)
+					if(downtime==MAX_DOWN+1)
 						game=0; /*GAME OVER*/
 					cDOWN=0;
 				}
@@ -397,12 +416,7 @@ int main(void){
 			c3=0;
 		}
 
-		/*c1shot=c1shot*diff;
-		c2shot=c1shot*diff;
-		c3shot=c1shot*diff;
-		c4shot=c1shot*diff;
-		c5shot=c1shot*diff;*/
-
+	if(!(getsw()&0x1)){
 		if(c1shot++>80){
 			alien_fire(&alien1_bullet, alien_1);
 			alien_fire(&alien4_bullet, alien_4);
@@ -413,17 +427,18 @@ int main(void){
 			alien_fire(&alien6_bullet, alien_6);
 			c2shot=0;
 		}
-		if(c3shot++>280){
+	}
+		if(c3shot++>260){
 			alien_fire(&alien3_bullet, alien_3);
 			alien_fire(&alien7_bullet, alien_7);
 			c3shot=0;
 		}
-		if(c4shot++>360){
+		if(c4shot++>300){
 			alien_fire(&alien5_bullet, alien_5);
 			alien_fire(&alien8_bullet, alien_8);
 			c4shot=0;
 		}
-		if(c5shot++>440){
+		if(c5shot++>400){
 			alien_fire(&alien9_bullet, alien_9);
 			c5shot=0;
 		}
@@ -439,7 +454,7 @@ int main(void){
 			}
 		}
 
-		they_got_shot(&ship_bullet1, world, idiots, &highscore);
+		they_got_shot(&ship_bullet1, world, idiots, &current_score);
 		you_got_shot(bad_bullets, world, &lives, &inverted);
 
 
@@ -516,6 +531,13 @@ int main(void){
 	for(i=2; i<9; i++)
 		pointLight(*bad_bullets[i]);
 
+	if(!alien_1[0].on && !alien_2[0].on && !alien_3[0].on && !alien_4[0].on && !alien_5[0].on &&
+				!alien_6[0].on && !alien_7[0].on && !alien_8[0].on && !alien_9[0].on){
+				end=1;
+				game=0;
+				delay(400000);
+			}
+
 	if(inverted>0)
 		invert();
 	else
@@ -524,10 +546,98 @@ int main(void){
 		delay(10);
 	}
 
+	if(end){
+		//boss intro
+		display_string(0,"The Nin Switch's"); //title
+		display_string(1," enemy is here! "); //Highscore is: score
+		display_string(2,"----A Lawyer----"); //diff is controlled with SW3
+		display_string(3,"Only ONE chance!"); //press btn4 to start
+
+		update_string();
+		delay(25000000);
+
+		//start_end
+		init();
+		clear_disp();
+
+		win=c0=c1=0;
+		shot=0; //ship has been fired at 1
+
+		//start_end();
+		init_ship(shipy, 5, 16);
+		init_alien(boss, 80, 12);
+	}
+
 	while(end){
 
+		if(getsw()==6)
+			end=0;
 
+		if(!shot)
+			if(getbtns() == DOWN)
+				shot=1;
 
+		if(shot){
+			if(c1++>6){
+				for(i=0;i<SHIP_SIZE;i++)
+					move_point(&shipy[i], 1);
+			}
+		}
+		else
+			move(shipy);
+
+		if(shipy[14].xpos==80){
+			for(i=0;i<ALIEN_SIZE;i++){
+				if(boss[i].ypos == shipy[10].ypos){
+					win=1;
+					for(j=0; j<ALIEN_SIZE; j++)
+						boss[j].on=0;
+					break;
+				}
+			}
+		}
+		if(shipy[0].xpos==120)
+			end=0;
+
+		if(c0++>1){
+			move(boss);
+			c0=0;
+		}
+
+		//void update_end()
+		clear_disp();
+
+		for(i=0; i<SHIP_SIZE; i++)
+			pointLight(shipy[i]);
+
+		for(i=0; i<ALIEN_SIZE; i++)
+			pointLight(boss[i]);
+
+		display_update();
+
+		delay(10);
+	}
+
+	if(win){
+		//gameover screen
+		display_string(0,"     SUCCESS"); //title
+		display_string(1,"----------------"); //Highscore is: score
+		display_string(2,"   We defeated  "); //diff is controlled with SW3
+		display_string(3," the evil lawyer!"); //press btn4 to start
+
+		update_string();
+		delay(20000000);
+	}
+
+	else{
+		//gameover screen
+		display_string(0,"    GAMEOVER"); //title
+		display_string(1,"----------------"); //Highscore is: score
+		display_string(2,""); //diff is controlled with SW3
+		display_string(3,"Neva givvu uppu!"); //press btn4 to start
+
+		update_string();
+		delay(22000000);
 	}
 }
 	return 0;

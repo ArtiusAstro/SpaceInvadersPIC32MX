@@ -38,7 +38,7 @@ void move_point(Point *point, int ai) {
 
 		/*UP to DOWN is defined in header*/
 		switch (btns) {
-			case UP: if(point->id==SHIP_BULLET || point->id==SHIP)
+			case UP: if(ai == 1)
 						point->xpos++;
 					 break;
 			case LEFT: (point->ypos--); break;
@@ -104,10 +104,10 @@ void they_got_shot(Point *ship_bullet1, Point** ship_barriers_rare_aliens1_3, Po
 					ship_barriers_rare_aliens1_3[i][j].on=0;
           //if rare alien shot, incr highscore by 3
           if (ship_barriers_rare_aliens1_3[i][j].id == RARE_ALIEN) {
-            highscore += 3;
+            *highscore = *highscore + 3;
           }
           else
-            highscore++;//else reg aliens shot, incr hs by 1
+            *highscore = *highscore + 1;//else reg aliens shot, incr hs by 1
 
 					boom1=1;
 				}
@@ -125,7 +125,7 @@ void they_got_shot(Point *ship_bullet1, Point** ship_barriers_rare_aliens1_3, Po
 				if((aliens4_9[i][j].xpos==ship_bullet1->xpos) && (aliens4_9[i][j].ypos==ship_bullet1->ypos)){
 					ship_bullet1->on=0;
 					aliens4_9[i][j].on=0;
-          highscore++;//reg aliens shot, incr highscore
+          *highscore = *highscore + 1;//reg aliens shot, incr highscore
 					boom1=1;
 				}
 			}
@@ -145,7 +145,7 @@ void you_got_shot(Point *bad_bullets[10], Point **ship_barrier12, int *lives, in
 				for(k=0;k<10;k++){
 					if((ship_barrier12[i][j].xpos==bad_bullets[k]->xpos) && (ship_barrier12[i][j].ypos==bad_bullets[k]->ypos)){
 						bad_bullets[k]->on=0;
-            bad_bullets[k]->xpos=127;
+            bad_bullets[k]->xpos=126;
 						if(ship_barrier12[i][0].id==SHIP){
 							*lives = *lives - 1;
 							*invert = *invert * -1;
