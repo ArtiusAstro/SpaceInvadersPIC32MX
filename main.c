@@ -547,10 +547,10 @@ int main(void){
 
 	if(end){
 		//boss intro
-		display_string(0,"The Nin Switch's"); //title
-		display_string(1," enemy is here! "); //Highscore is: score
-		display_string(2,"----A Lawyer----"); //diff is controlled with SW3
-		display_string(3,"Only ONE chance!"); //press btn4 to start
+		display_string(0,"The Nin Switch's"); 
+		display_string(1," enemy is here! "); 
+		display_string(2,"----A Lawyer----"); 
+		display_string(3,"Only ONE chance!");
 
 		update_string();
 		delay(25000000);
@@ -619,10 +619,10 @@ int main(void){
 
 	if(win){
 		//gameover screen
-		display_string(0,"     SUCCESS"); //title
-		display_string(1,"----------------"); //Highscore is: score
-		display_string(2,"   We defeated  "); //diff is controlled with SW3
-		display_string(3," the evil lawyer!"); //press btn4 to start
+		display_string(0,"     SUCCESS"); 
+		display_string(1,"----------------"); 
+		display_string(2,"   We defeated  "); 
+		display_string(3," the evil lawyer!"); 
 
 		update_string();
 		delay(20000000);
@@ -630,10 +630,10 @@ int main(void){
 
 	else{
 		//gameover screen
-		display_string(0,"    GAMEOVER"); //title
-		display_string(1,"----------------"); //Highscore is: score
-		display_string(2,""); //diff is controlled with SW3
-		display_string(3,"Neva givvu uppu!"); //press btn4 to start
+		display_string(0,"    GAMEOVER");
+		display_string(1,"----------------"); 
+		display_string(2,""); 
+		display_string(3,"Neva givvu uppu!");
 
 		update_string();
 		delay(22000000);
