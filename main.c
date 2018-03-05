@@ -221,7 +221,7 @@ void num2string(int num){
 
 int main(void){
 	int highscore;
-	highscore=0; /*highscore is used in they_got_shot()*/
+	highscore=0; /*score is used in they_got_shot()*/
 	int current_score;
 	current_score=0;
 	for(;;){
@@ -282,6 +282,7 @@ int main(void){
 
 	if(current_score>highscore)
 			highscore=current_score;
+	current_score=0;
 
 	int title;
 	int end;
@@ -289,6 +290,9 @@ int main(void){
 	char score[12];
 	title=1;
 	game = 1;
+
+	int one_time;
+	one_time=0;
 	while(title){
 		if(getsw()==0x3){
 			game=0;
@@ -315,7 +319,10 @@ int main(void){
 		display_string(2,"SW1 ON 4 ez mode"); //diff is controlled with SW3
 		display_string(3,"btn4 to START"); //press btn4 to start
 
-		update_string();
+		if(!one_time){
+			update_string();
+			one_time++;
+		}
 	}
 
 	init_ship(shipy, 5, 16);
@@ -338,8 +345,10 @@ int main(void){
 		while(getsw()&0x8){
 			if(getsw()&0x4)
 				*lights = current_score;
-			else
+			if(!(getsw()&0x4))
 				*lights = lives;
+			if(getsw()==0xe)
+				game=0;
 			if(!(getsw()&0x8))
 				break;
 			}
@@ -547,10 +556,10 @@ int main(void){
 
 	if(end){
 		//boss intro
-		display_string(0,"The Nin Switch's"); 
-		display_string(1," enemy is here! "); 
-		display_string(2,"----A Lawyer----"); 
-		display_string(3,"Only ONE chance!");
+		display_string(0,"The Nin Switch's"); //title
+		display_string(1," enemy is here! "); //Highscore is: score
+		display_string(2,"----A Lawyer----"); //diff is controlled with SW3
+		display_string(3,"Only ONE chance!"); //press btn4 to start
 
 		update_string();
 		delay(25000000);
@@ -559,7 +568,7 @@ int main(void){
 		init();
 		clear_disp();
 
-		win=c0=c1=0;
+		c0=c1=0;
 		shot=0; //ship has been fired at 1
 
 		//start_end();
@@ -567,9 +576,11 @@ int main(void){
 		init_alien(boss, 80, 12);
 	}
 
+	win=0;
+
 	while(end){
 
-		if(getsw()==6)
+		if(getsw()==0x6)
 			end=0;
 
 		if(!shot)
@@ -577,7 +588,7 @@ int main(void){
 				shot=1;
 
 		if(shot){
-			if(c1++>15){
+			if(c1++>40){
 				for(i=0;i<SHIP_SIZE;i++)
 					move_point(&shipy[i], 1);
 			}
@@ -619,21 +630,22 @@ int main(void){
 
 	if(win){
 		//gameover screen
-		display_string(0,"     SUCCESS"); 
-		display_string(1,"----------------"); 
-		display_string(2,"   We defeated  "); 
-		display_string(3," the evil lawyer!"); 
+		display_string(0,"     SUCCESS"); //title
+		display_string(1,"----------------"); //Highscore is: score
+		display_string(2,"   We defeated  "); //diff is controlled with SW3
+		display_string(3," the evil lawyer!"); //press btn4 to start
 
 		update_string();
+		current_score+=25;
 		delay(20000000);
 	}
 
 	else{
 		//gameover screen
-		display_string(0,"    GAMEOVER");
-		display_string(1,"----------------"); 
-		display_string(2,""); 
-		display_string(3,"Neva givvu uppu!");
+		display_string(0,"    GAMEOVER"); //title
+		display_string(1,"----------------"); //Highscore is: score
+		display_string(2,""); //diff is controlled with SW3
+		display_string(3,"Neva givvu uppu!"); //press btn4 to start
 
 		update_string();
 		delay(22000000);
