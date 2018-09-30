@@ -28,7 +28,7 @@ void move(Point *thing){
 		case ALIEN_7:
 		case ALIEN_8:
 		case ALIEN_9:
-    case BOSS:
+    		case BOSS:
 			ai=2;
 			len=ALIEN_SIZE; break;
 		case RARE_ALIEN:
