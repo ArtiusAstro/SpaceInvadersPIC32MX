@@ -3,7 +3,7 @@
 Any C or assembly files will automatically be built,
 no need to edit the Makefile.
 
-- main.c:
+- main.c
 	Contains the entry point main()
 	
 - switch.h
