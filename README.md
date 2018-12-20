@@ -21,9 +21,9 @@ no need to edit the Makefile.
 - init.c
 	Contains init for various components
 	
-- vectors.S:
+- vectors.S
 	Contains the interrupt handler and the exception handler
 
-- stubs.c:
+- stubs.c
 	Contains stubs for functions run during micro controller
 	initialization
