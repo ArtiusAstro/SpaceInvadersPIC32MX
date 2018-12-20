@@ -1,8 +1,4 @@
 # Space invaders on a Not Nintendo Switch. 
-By Ayub Atif and Wajd Tohme. 
-
-Project abstract:
-https://docs.google.com/document/d/1TF4ntXGd8Ek8SFzuzT3Ju0wxF4fn5X0Q7KfAnj81Rpo/edit
 
 Any C or assembly files will automatically be built,
 no need to edit the Makefile.
