@@ -3,27 +3,27 @@
 Any C or assembly files will automatically be built,
 no need to edit the Makefile.
 
-main.c:
+- main.c:
 	Contains the entry point main()
 	
-switch.h
+- switch.h
 	Sole header file, which includes all shared functions
 
-graphics.c
+- graphics.c
 	Contains the code to lightup pixel and send/rec SPI
 	
-Point.c
+- Point.c
 	Contains the behaviour of a point in a (128,32) system
 	
-assets.c
+- assets.c
 	Contains drawing functions for each asset
 
-init.c
+- init.c
 	Contains init for various components
 	
-vectors.S:
+- vectors.S:
 	Contains the interrupt handler and the exception handler
 
-stubs.c:
+- stubs.c:
 	Contains stubs for functions run during micro controller
 	initialization
