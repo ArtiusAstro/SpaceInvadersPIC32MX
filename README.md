@@ -1,4 +1,4 @@
-# Space invaders on a Not Nintendo Switch. 
+# Space invaders
 
 Any C or assembly files will automatically be built,
 no need to edit the Makefile.
